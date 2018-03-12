@@ -6,6 +6,7 @@ public class CallBackTest {
     private MqClient mqClient = new MqClient();
     @Test
     public void testCallBack() {
+        //这个新启一个线就是异步回调
         mqClient.sentMessage("这是一条消息!", new CallBack() {
             @Override
             public void onSuccess() {
