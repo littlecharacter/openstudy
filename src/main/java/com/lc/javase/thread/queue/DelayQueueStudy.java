@@ -19,7 +19,7 @@ public class DelayQueueStudy {
 		es.shutdown();
 	}
 
-	private static class DelayTask implements Runnable, Delayed{
+	private class DelayTask implements Runnable, Delayed{
 		private String name;
 		private long delay;
 
@@ -50,7 +50,7 @@ public class DelayQueueStudy {
 		}
 	}
 
-	private static class TaskConsumer implements Runnable{
+	private class TaskConsumer implements Runnable{
 		private DelayQueue<DelayTask> dq;
 
 		public TaskConsumer(DelayQueue<DelayTask> dq) {
