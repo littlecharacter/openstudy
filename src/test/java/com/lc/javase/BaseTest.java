@@ -8,6 +8,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class BaseTest {
     @Test
@@ -35,5 +36,20 @@ public class BaseTest {
         LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(1516752000L), ZoneId.systemDefault());
         dateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(1516789816018L), ZoneId.systemDefault());
         System.out.println(dateTime.format(formatter));
+    }
+
+    @Test
+    public void testLinkedList() {
+        LinkedList<Integer> handlers = new LinkedList<>();
+        handlers.add(1);
+        handlers.add(2);
+        handlers.add(3);
+        handlers.add(4);
+
+        System.out.println(handlers.peekFirst());
+        System.out.println(handlers.peekFirst());
+        System.out.println(handlers.peekFirst());
+        System.out.println(handlers.peekFirst());
+        System.out.println(handlers.peekFirst());
     }
 }
