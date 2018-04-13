@@ -2,6 +2,7 @@ package com.lc.javase.thread.interrupt;
 
 import org.junit.Test;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class InterruptStudyTest {
@@ -15,11 +16,10 @@ public class InterruptStudyTest {
 
     @Test
     public void testInterrupt() throws Exception {
-        Thread t = interruptStudy.interrupt();
-        TimeUnit.SECONDS.sleep(1);
-        System.out.println(t.isInterrupted());
+        final CountDownLatch latch = new CountDownLatch(1);
+        Thread t = interruptStudy.interrupt(latch);
+        latch.await();
         t.interrupt();
-        System.out.println(t.isInterrupted());
         TimeUnit.SECONDS.sleep(30);
     }
 }
