@@ -6,7 +6,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class CountDownLatchStudyTest {
-    private final int THREAD_NUM = 10;
     private final CountDownLatchStudy countDownLatch = new CountDownLatchStudy();
 
     @Test
@@ -17,6 +16,7 @@ public class CountDownLatchStudyTest {
 
     @Test
     public void testConcurrent() throws Exception {
+        final int THREAD_NUM = 10;
         final CountDownLatch startGate = new CountDownLatch(1);
         final CountDownLatch endGate = new CountDownLatch(THREAD_NUM);
 
