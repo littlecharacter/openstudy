@@ -26,7 +26,7 @@ public class ThreadLocalStudyTest {
             Connection connection = ThreadLocalStudy.getConnection();
             try {
                 assert connection != null;
-                connection.setClientInfo("client-1", "线程-2的数据库连接的第一个客户端");
+                connection.setClientInfo("client-2", "线程-2的数据库连接的第一个客户端");
                 TimeUnit.MILLISECONDS.sleep(1000L);
                 System.out.println(Thread.currentThread().getName() + ":" + connection.getClientInfo());
             } catch (Exception e) {
