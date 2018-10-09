@@ -1,6 +1,6 @@
 package com.lc.javase.juc;
 
-import com.lc.javase.util.PropertyUtil;
+import com.lc.common.PropertyUtil;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

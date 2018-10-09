@@ -1,7 +1,7 @@
 package com.lc.javase.juc.safe;
 
+import com.lc.common.BeanCopy;
 import com.lc.javase.pojo.PointMutable;
-import com.lc.javase.util.BeanCopy;
 
 import java.util.Map;
 
