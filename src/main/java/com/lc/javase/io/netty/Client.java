@@ -55,6 +55,7 @@ public class Client {
     }
 
     private static class ClientHandler extends ChannelHandlerAdapter {
+        // TODO 心跳检测用ScheduledExecutorService
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
             try {
