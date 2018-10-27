@@ -8,6 +8,8 @@ import java.time.LocalDate;
 public class BaseTest {
     @Test
     public void test(){
+        String userDir = System.getProperty("user.dir");
+        System.out.println(userDir);
         Assert.assertTrue("这只是一个测试", LocalDate.now().getYear() < Integer.MAX_VALUE);
     }
 }
