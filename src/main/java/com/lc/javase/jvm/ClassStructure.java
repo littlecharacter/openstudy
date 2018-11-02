@@ -1,4 +1,4 @@
-package com.lc.javase.jvm.classstructure;
+package com.lc.javase.jvm;
 
 public class ClassStructure {
     public static final String HELLO = "Hello";
