@@ -1,6 +1,5 @@
 package com.lc.javase.juc.synutil;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
@@ -10,13 +9,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class FutureTaskLearn {
 	public static void main(String[] args) throws Exception {
-		FutureTask<String> result = new FutureTask<>(new Callable<String>() {
-			@Override
-			public String call() throws Exception {
-				TimeUnit.MILLISECONDS.sleep(10000);
-				return "hello!";
-			}
-		});
+		FutureTask<String> result = new FutureTask<>(() -> {
+            TimeUnit.MILLISECONDS.sleep(10000);
+            return "hello!";
+        });
 		result.run();
 
 		System.out.println(result.get());

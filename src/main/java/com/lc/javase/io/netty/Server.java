@@ -52,6 +52,7 @@ public class Server {
         ChannelFuture f = bootstrap.bind(8765).sync();
         // 等待通道关闭通知
         f.channel().closeFuture().sync();
+        System.out.println("通道关闭!");
         // 释放资源
         bossGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();

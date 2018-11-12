@@ -32,8 +32,12 @@ public class DelayQueueStudy {
 		@Override
 		public int compareTo(Delayed dd) {
 			DelayTask that = (DelayTask)dd;
-			if (this.delay < that.delay) return -1;
-			if (this.delay > that.delay) return 1;
+			if (this.delay < that.delay) {
+				return -1;
+			}
+			if (this.delay > that.delay) {
+				return 1;
+			}
 			return 0;
 		}
 
