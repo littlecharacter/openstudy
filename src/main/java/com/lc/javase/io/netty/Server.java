@@ -20,9 +20,12 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
 public class Server {
     public static void main(String[] args) throws Exception {
         //1 第一个线程组 是用于接收Client端连接的
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        /* 最佳实践是Boss配置1个Reactor线程，因为服务端Socket监听端口只能被一个Socket所占有，
+         * 并且连接的建立是十分迅速的，因此Boss这里不会有性能问题
+         */
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         //2 第二个线程组 是用于实际的业务处理操作的
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        EventLoopGroup workerGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors() + 1);
         //3 创建一个辅助类Bootstrap，就是对我们的Server进行一系列的配置
         ServerBootstrap bootstrap = new ServerBootstrap();
         // 把俩个工作线程组加入进来
