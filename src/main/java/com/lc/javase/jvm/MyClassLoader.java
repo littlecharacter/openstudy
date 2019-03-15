@@ -24,8 +24,7 @@ public class MyClassLoader extends ClassLoader {
 
     /**
      * 重写父类方法，返回一个Class对象
-     * ClassLoader中对于这个方法的注释是:
-     * This method should be overridden by class loader implementations
+     * ClassLoader中对于这个方法的注释是:This method should be overridden by class loader implementations.
      */
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
@@ -42,41 +41,42 @@ public class MyClassLoader extends ClassLoader {
     }
 
     private byte[] getClassBytes(File file) throws Exception {
-        // 这里要读入.class的字节，因此要使用字节流
-        FileInputStream fis = new FileInputStream(file);
-        FileChannel fc = fis.getChannel();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        WritableByteChannel wbc = Channels.newChannel(baos);
-        ByteBuffer by = ByteBuffer.allocate(1024);
-        while (true) {
-            int i = fc.read(by);
-            if (i == 0 || i == -1) {
-                break;
+        ByteArrayOutputStream baos;
+        try (FileInputStream fis = new FileInputStream(file)) {
+            FileChannel fc = fis.getChannel();
+            baos = new ByteArrayOutputStream();
+            try (WritableByteChannel wbc = Channels.newChannel(baos)) {
+                ByteBuffer bb = ByteBuffer.allocate(1024);
+                while (true) {
+                    int i = fc.read(bb);
+                    if (i == 0 || i == -1) {
+                        break;
+                    }
+                    bb.flip();
+                    wbc.write(bb);
+                    bb.clear();
+                }
             }
-            by.flip();
-            wbc.write(by);
-            by.clear();
         }
-        fis.close();
         return baos.toByteArray();
     }
 
     public static void main(String[] args) throws Exception{
         ClassLoader classLoader = MyClassLoader.class.getClassLoader();
         while (classLoader.getParent() != null) {
-            System.out.println("classLoader：" + classLoader);
+            System.out.println("ClassLoader：" + classLoader);
             classLoader = classLoader.getParent();
         }
-        System.out.println("classLoader" + classLoader);
+        System.out.println("ClassLoader：" + classLoader);
 
         MyClassLoader classpathClassLoader = new MyClassLoader("D:\\");
         Class classpathClazz = classpathClassLoader.loadClass("com.lc.javase.jvm.HelloWorld");
         Method classpathSayHello = classpathClazz.getDeclaredMethod("sayHello", String.class);
-        System.out.println(classpathSayHello.invoke(classpathClazz.newInstance(), "zs"));
+        System.out.println(classpathSayHello.invoke(classpathClazz.newInstance(), "world"));
 
         MyClassLoader customClassLoader = new MyClassLoader(null,"D:\\");
         Class customClazz = customClassLoader.loadClass("com.lc.javase.jvm.HelloWorld");
         Method customSayHello = customClazz.getDeclaredMethod("sayHello", String.class);
-        System.out.println(customSayHello.invoke(customClazz.newInstance(), "zs"));
+        System.out.println(customSayHello.invoke(customClazz.newInstance(), "world"));
     }
 }
