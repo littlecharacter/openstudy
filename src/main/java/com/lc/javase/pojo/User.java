@@ -1,6 +1,6 @@
 package com.lc.javase.pojo;
 
-public class User {
+public class User extends Person {
     private Long id;
     private String name;
     private Integer age;

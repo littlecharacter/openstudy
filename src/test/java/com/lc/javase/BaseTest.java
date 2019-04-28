@@ -1,6 +1,8 @@
 package com.lc.javase;
 
+import com.alibaba.fastjson.JSON;
 import com.lc.javase.pojo.Seller;
+import com.lc.javase.pojo.User;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,5 +32,16 @@ public class BaseTest {
         System.out.println(Objects.equals(s1, s2));
 
         Assert.assertTrue("这只是一个测试", LocalDate.now().getYear() < Integer.MAX_VALUE);
+    }
+
+    @Test
+    public void testPojo() {
+        User user = new User();
+        user.setId(1L);
+        user.setName("zs");
+        user.setAge(18);
+        user.setSex(1);
+        System.out.println(JSON.toJSONString(user));
+        System.out.println(System.currentTimeMillis());
     }
 }

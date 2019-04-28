@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class DateTimeStudy {
     public void showDateTime() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        long [] data = new long[]{1516792200L,1516793486L,1516795437L};
+        long [] data = new long[]{1516792200L,1516793486L,1516795437L,1479692912L};
         Arrays.sort(data);
         Arrays.stream(data).forEach(time -> System.out.println(LocalDateTime.ofInstant(Instant.ofEpochSecond(time), ZoneId.systemDefault()).format(formatter)));
 
