@@ -14,6 +14,11 @@ public class DateTimeStudyTest {
     }
 
     @Test
+    public void testIsUrgency() throws Exception {
+        new DateTimeStudy().isUrgency();
+    }
+
+    @Test
     public void testGetNonworkDay() throws ParseException {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
