@@ -15,6 +15,7 @@ public class InterruptLearn {
             try {
                 TimeUnit.SECONDS.sleep(5);
             } catch (InterruptedException e) {
+                // 一旦抛出异常，线程状态就会被设置为false
                 System.out.println("线程被中断!");
                 System.out.println("线程中断状态:" + Thread.currentThread().isInterrupted());
                 System.out.println("线程中断状态:" + Thread.currentThread().isInterrupted());
@@ -41,16 +42,17 @@ public class InterruptLearn {
         Thread t2 = new Thread(() -> {
             lock.lock();
             System.out.println("线程执行中...");
-            Thread.interrupted();
+            //Thread.interrupted();
             try {
                 TimeUnit.SECONDS.sleep(3);
+                System.out.println("线程正常运行结束!");
             } catch (InterruptedException e) {
+                // 一旦抛出异常，线程状态就会被设置为false
                 System.out.println("线程被中断!");
                 System.out.println("线程中断状态:" + Thread.currentThread().isInterrupted());
                 System.out.println("线程中断状态:" + Thread.currentThread().isInterrupted());
                 e.printStackTrace();
             }
-            System.out.println("线程正常运行结束!");
         });
         t2.start();
         try {

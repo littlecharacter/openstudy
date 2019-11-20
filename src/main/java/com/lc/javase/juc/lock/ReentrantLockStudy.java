@@ -10,7 +10,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class ReentrantLockStudy {
     public static void main(String[] args) {
         Lock lock = new ReentrantLock(false);
-        ReadWriteLock rwLock = new ReentrantReadWriteLock(false);
         Condition condition1 = lock.newCondition();
         lock.lock();
         try {
@@ -36,5 +35,13 @@ public class ReentrantLockStudy {
             e.printStackTrace();
         }
         condition2.signal();
+
+        ReadWriteLock rwLock = new ReentrantReadWriteLock(false);
+        Lock readLock = rwLock.readLock();
+        Lock writeLock = rwLock.writeLock();
+        readLock.lock();
+        readLock.unlock();
+        writeLock.lock();
+        writeLock.unlock();
     }
 }

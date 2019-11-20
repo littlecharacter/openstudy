@@ -28,21 +28,22 @@ public class ThreadPoolExecutorDemo {
 			}
 		}
 	}
-}
 
-class ThreadPoolTask implements Runnable {
-	private String taskName;
+	private static class ThreadPoolTask implements Runnable {
+		private String taskName;
 
-	ThreadPoolTask(String taskName) {
-		this.taskName = taskName;
-	}
+		ThreadPoolTask(String taskName) {
+			this.taskName = taskName;
+		}
 
-	public void run() {
-		try {
-			System.out.println("start .." + taskName);
-			TimeUnit.MILLISECONDS.sleep(3000);
-		} catch (Exception e) {
-			e.printStackTrace();
+		public void run() {
+			try {
+				System.out.println("start .." + taskName);
+				TimeUnit.MILLISECONDS.sleep(3000);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
+
