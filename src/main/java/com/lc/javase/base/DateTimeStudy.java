@@ -13,7 +13,6 @@ public class DateTimeStudy {
         long [] data = new long[]{1516792200L,1516793486L,1516795437L};
         Arrays.sort(data);
         Arrays.stream(data).forEach(time -> System.out.println(LocalDateTime.ofInstant(Instant.ofEpochSecond(time), ZoneId.systemDefault()).format(formatter)));
-
         //LocalDateTime time = LocalDateTime.of(2018, 1, 24, 19, 10, 0);
         LocalDateTime time = LocalDateTime.now();
         System.out.println(time.format(formatter));
