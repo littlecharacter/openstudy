@@ -66,6 +66,7 @@ public class CountDownLatchStudy {
 			int result = 0;
 			try {
 				latch.await();
+				latch.await(111L, TimeUnit.DAYS);
 				for (Future<Integer> future : resultList) {
 					result += future.get();
 				}

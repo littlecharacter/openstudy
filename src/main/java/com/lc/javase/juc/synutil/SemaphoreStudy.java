@@ -3,6 +3,7 @@ package com.lc.javase.juc.synutil;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 public class SemaphoreStudy {// 信号量
 	// Semaphore（信号量） 是一个线程同步结构，用于在线程间传递信号（wait，notify，notifyAll），以避免出现信号丢失；
@@ -30,6 +31,8 @@ public class SemaphoreStudy {// 信号量
 					try {
 						// 获取许可
 						semp.acquire();
+						semp.acquireUninterruptibly();
+						semp.tryAcquire(11L, TimeUnit.SECONDS);
 						//semp.tryAcquire(3000, TimeUnit.MILLISECONDS);
 						System.out.println(NO + ":Accessed!");
 						Thread.sleep((long) (Math.random() * 10000));

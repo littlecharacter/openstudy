@@ -5,8 +5,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class DateTimeStudy {
     public void showDateTime() {
@@ -56,5 +57,27 @@ public class DateTimeStudy {
         }
         // 工作日，无付款时间段配置
         return 0;
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        // 运行后将时间倒退一分钟
+        System.out.println("Start:\t" + new Date());
+
+        Executors.newSingleThreadScheduledExecutor().schedule(() -> {
+            System.out.println("Executor:\t" + new Date());
+        }, 60, TimeUnit.SECONDS);
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("Timer:\t" + new Date());
+            }
+        }, 60000);
+
+        for (; ; ) {
+            System.out.println(System.nanoTime());
+            System.out.println(System.currentTimeMillis());
+            TimeUnit.SECONDS.sleep(1);
+        }
     }
 }

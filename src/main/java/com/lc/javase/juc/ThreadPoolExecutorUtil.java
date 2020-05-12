@@ -6,11 +6,9 @@ import java.util.concurrent.Executors;
 public class ThreadPoolExecutorUtil {
 	
 	private static class ThreadPoolExecutorUtilInner{
-		//60sû���̼߳��룬���Զ�����
 		//private static ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 		//private static ExecutorService cachedThreadPool = Executors.newSingleThreadExecutor();
 		//private static ScheduledExecutorService cachedThreadPool = Executors.newScheduledThreadPool(5);
-		//��Զ��������
 		private static ExecutorService cachedThreadPool = Executors.newFixedThreadPool(5);
 	}
 	

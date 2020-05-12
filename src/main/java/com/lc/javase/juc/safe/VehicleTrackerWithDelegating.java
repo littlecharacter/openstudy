@@ -1,6 +1,6 @@
 package com.lc.javase.juc.safe;
 
-import com.lc.javase.pojo.PointFinal;
+import com.lc.javase.other.pojo.PointFinal;
 
 import java.util.Collections;
 import java.util.HashMap;

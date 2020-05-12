@@ -28,6 +28,7 @@ public class MyClassLoader extends ClassLoader {
      */
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
+        // String filePath = path + File.separator + name.replace(".", File.separator) + ".class";
         String filePath = path + name.replaceAll("\\.", "/") + ".class";
         File file = new File(filePath);
         try {
@@ -69,14 +70,17 @@ public class MyClassLoader extends ClassLoader {
         }
         System.out.println("ClassLoader：" + classLoader);
 
-        MyClassLoader classpathClassLoader = new MyClassLoader("D:\\");
+        MyClassLoader classpathClassLoader = new MyClassLoader("E:\\");
         Class classpathClazz = classpathClassLoader.loadClass("com.lc.javase.jvm.HelloWorld");
         Method classpathSayHello = classpathClazz.getDeclaredMethod("sayHello", String.class);
         System.out.println(classpathSayHello.invoke(classpathClazz.newInstance(), "world"));
 
-        MyClassLoader customClassLoader = new MyClassLoader(null,"D:\\");
+        MyClassLoader customClassLoader = new MyClassLoader(null,"E:\\");
         Class customClazz = customClassLoader.loadClass("com.lc.javase.jvm.HelloWorld");
         Method customSayHello = customClazz.getDeclaredMethod("sayHello", String.class);
         System.out.println(customSayHello.invoke(customClazz.newInstance(), "world"));
+
+        HelloWorld helloWorld = new HelloWorld();
+        System.out.println(helloWorld.sayHello("gujx"));
     }
 }

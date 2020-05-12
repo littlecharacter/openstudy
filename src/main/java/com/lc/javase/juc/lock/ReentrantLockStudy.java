@@ -9,9 +9,15 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ReentrantLockStudy {
     public static void main(String[] args) {
-        Lock lock = new ReentrantLock(false);
+        ReentrantLock lock = new ReentrantLock(false);
         Condition condition1 = lock.newCondition();
         lock.lock();
+        lock.tryLock();
+        try {
+            lock.lockInterruptibly();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         try {
             lock.tryLock(1000, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {

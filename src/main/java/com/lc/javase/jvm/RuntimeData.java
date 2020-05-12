@@ -1,6 +1,6 @@
 package com.lc.javase.jvm;
 
-import com.lc.javase.pojo.User;
+import com.lc.javase.other.pojo.User;
 
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;

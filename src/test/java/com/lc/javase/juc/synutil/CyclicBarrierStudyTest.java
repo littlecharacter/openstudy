@@ -8,8 +8,8 @@ public class CyclicBarrierStudyTest {
     private CyclicBarrierStudy cyclicBarrier = new CyclicBarrierStudy();
 
     @Test
-    public void testRace() throws Exception{
-        cyclicBarrier.race();
-        TimeUnit.MILLISECONDS.sleep(10000L);
+    public void testWork() throws Exception {
+        cyclicBarrier.work();
+        TimeUnit.MILLISECONDS.sleep(100000L);
     }
 }

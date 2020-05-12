@@ -1,7 +1,13 @@
 package com.lc.javase.base;
 
+import java.io.File;
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.Collections;
+
 public class StringStudy {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         final String  s1 ;
         String s2 = "vv";
         String s3 = "vvww";
@@ -23,5 +29,11 @@ public class StringStudy {
         String[] s10s = s10.split("@");
         System.out.println(s9 + "：" + s9s[0]);
         System.out.println(s10 + "：" + s10s[0]);
+
+        Collections.sort(Collections.EMPTY_LIST);
+
+        File file = new File("xxx");
+
+        MappedByteBuffer mappedByteBuffer = new RandomAccessFile(file, "r").getChannel().map(FileChannel.MapMode.READ_ONLY, 0, file.length());
     }
 }

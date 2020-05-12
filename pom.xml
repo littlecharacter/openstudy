@@ -8,12 +8,6 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <dependencies>
-        <!-- common-utils -->
-        <dependency>
-            <groupId>com.lc</groupId>
-            <artifactId>common-utils</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
         <!-- fastjson -->
         <dependency>
             <groupId>com.alibaba</groupId>

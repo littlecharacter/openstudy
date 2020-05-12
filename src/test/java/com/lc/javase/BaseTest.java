@@ -1,8 +1,8 @@
 package com.lc.javase;
 
 import com.alibaba.fastjson.JSON;
-import com.lc.javase.pojo.Seller;
-import com.lc.javase.pojo.User;
+import com.lc.javase.other.pojo.Seller;
+import com.lc.javase.other.pojo.User;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,5 +43,34 @@ public class BaseTest {
         user.setSex(1);
         System.out.println(JSON.toJSONString(user));
         System.out.println(System.currentTimeMillis());
+    }
+
+    @Test
+    public void testBitOperate() {
+        int m = 10;
+        int n = 4;
+        int x = 3;
+
+        System.out.println(m % n);
+        System.out.println(m & (n - 1));
+        System.out.println(m % x);
+        System.out.println(m & (x - 1));
+    }
+
+    @Test
+    public void testGetMinRun() {
+        for (int i = 33; i < 100; i++) {
+            System.out.println(minRunLength(i));
+        }
+    }
+
+    private int minRunLength(int n) {
+        assert n >= 0;
+        int r = 0;
+        while (n >= 32) {
+            r |= (n & 1);
+            n >>= 1;
+        }
+        return n + r;
     }
 }
