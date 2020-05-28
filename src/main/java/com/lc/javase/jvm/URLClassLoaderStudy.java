@@ -20,7 +20,12 @@ public class URLClassLoaderStudy {
         URLClassLoader customClassLoader = new URLClassLoader(new URL[]{url}, null);
         Class customClazz = customClassLoader.loadClass("com.lc.javase.jvm.HelloWorld");
         Method customSayHello = customClazz.getDeclaredMethod("sayHello", String.class);
-        System.out.println(customSayHello.invoke(customClazz.newInstance(), "world"));
+        System.out.println(customSayHello.invoke(customClazz.newInstance(), "world1"));
+
+        customClassLoader = new URLClassLoader(new URL[]{url}, null);
+        customClazz = customClassLoader.loadClass("com.lc.javase.jvm.HelloWorld");
+        customSayHello = customClazz.getDeclaredMethod("sayHello", String.class);
+        System.out.println(customSayHello.invoke(customClazz.newInstance(), "world2"));
 
         HelloWorld helloWorld = new HelloWorld();
         System.out.println(helloWorld.sayHello("gujx"));

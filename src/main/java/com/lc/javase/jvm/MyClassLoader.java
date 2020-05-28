@@ -9,6 +9,12 @@ import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.WritableByteChannel;
 
+/**
+ * 实现的功能同URLClassLoader，只不过把findClass暴露出来了
+ * 改变双亲委托机制有两种方法：
+ * 1、给自定义的parent类加载器传 null
+ * 2、直接暴露findClass方法，调用findClass方法直接加载类
+ */
 public class MyClassLoader extends ClassLoader {
     private String path;
 
@@ -78,7 +84,12 @@ public class MyClassLoader extends ClassLoader {
         MyClassLoader customClassLoader = new MyClassLoader(null,"E:\\");
         Class customClazz = customClassLoader.loadClass("com.lc.javase.jvm.HelloWorld");
         Method customSayHello = customClazz.getDeclaredMethod("sayHello", String.class);
-        System.out.println(customSayHello.invoke(customClazz.newInstance(), "world"));
+        System.out.println(customSayHello.invoke(customClazz.newInstance(), "world1"));
+
+        customClassLoader = new MyClassLoader(null,"E:\\");
+        customClazz = customClassLoader.loadClass("com.lc.javase.jvm.HelloWorld");
+        customSayHello = customClazz.getDeclaredMethod("sayHello", String.class);
+        System.out.println(customSayHello.invoke(customClazz.newInstance(), "world2"));
 
         HelloWorld helloWorld = new HelloWorld();
         System.out.println(helloWorld.sayHello("gujx"));
