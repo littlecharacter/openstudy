@@ -1,4 +1,4 @@
-package com.lc.concurrency.thread;
+package com.lc.javase.juc.pool;
 
 import com.lc.javase.juc.ThreadPoolExecutorUtil;
 
@@ -13,6 +13,7 @@ public class ThreadPoolExecutorDemo {
 		for (int i = 1; i <= 100; i++) {
 			try {
 				ThreadPoolExecutorUtil.getThreadPool().execute(new ThreadPoolTask(new String("任务" + i)));
+                ThreadPoolExecutorUtil.getThreadPool().submit(new ThreadPoolTask(new String("任务" + i)));
 				System.out.println("第" + i + "个线程加入线程池！");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -36,7 +37,8 @@ public class ThreadPoolExecutorDemo {
 			this.taskName = taskName;
 		}
 
-		public void run() {
+		@Override
+        public void run() {
 			try {
 				System.out.println("start .." + taskName);
 				TimeUnit.MILLISECONDS.sleep(3000);

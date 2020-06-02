@@ -7,8 +7,12 @@ public class BaseStudy {
         BaseStudy.name = name;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         BaseStudy baseStudy = new BaseStudy("123");
         System.out.println(BaseStudy.name);
+
+        Class clazz = BaseStudy.class;
+        clazz.newInstance();
+        clazz.getMethod("xx").invoke()
     }
 }

@@ -10,6 +10,15 @@ public class ThreadLocalStudy {
             + "?" + PropertyUtil.NAME + "=" + PropertyUtil.getProperty(PropertyUtil.NAME)
             + "&" + PropertyUtil.PSWD + "=" + PropertyUtil.getProperty(PropertyUtil.PSWD);
 
+    // private static ThreadLocal<Connection> connectionHolder = ThreadLocal.withInitial(() -> {
+    //     try {
+    //         return DriverManager.getConnection(DB_URL);
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //         return null;
+    //     }
+    // });
+
     private static ThreadLocal<Connection> connectionHolder = new ThreadLocal<>();
 
 
