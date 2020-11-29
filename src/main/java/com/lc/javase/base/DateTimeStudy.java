@@ -59,6 +59,13 @@ public class DateTimeStudy {
         return 0;
     }
 
+    public void getCurrentTime() {
+        long currentTime = System.nanoTime();
+        System.out.println(currentTime);
+        currentTime = System.currentTimeMillis();
+        System.out.println(currentTime);
+    }
+
     public static void main(String[] args) throws InterruptedException {
         // 运行后将时间倒退一分钟
         System.out.println("Start:\t" + new Date());

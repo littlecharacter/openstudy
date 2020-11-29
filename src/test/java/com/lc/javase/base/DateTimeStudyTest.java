@@ -29,4 +29,9 @@ public class DateTimeStudyTest {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
     }
+
+    @Test
+    public void testGetCurrentTime() throws Exception {
+        new DateTimeStudy().getCurrentTime();
+    }
 }
