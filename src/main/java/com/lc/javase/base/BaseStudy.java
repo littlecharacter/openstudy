@@ -13,6 +13,6 @@ public class BaseStudy {
 
         Class clazz = BaseStudy.class;
         clazz.newInstance();
-        clazz.getMethod("xx").invoke()
+        // clazz.getMethod("xx").invoke();
     }
 }
