@@ -7,6 +7,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class BaseTest {
@@ -14,6 +17,7 @@ public class BaseTest {
     public void test() throws Exception {
         String userDir = System.getProperty("user.dir");
         System.out.println(userDir);
+        System.out.println(LocalDateTime.parse("2022-12-31 23:59:59", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toInstant(ZoneOffset.of("+8")).toEpochMilli());
         Assert.assertTrue("这只是一个测试", LocalDate.now().getYear() < Integer.MAX_VALUE);
     }
 
