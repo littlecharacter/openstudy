@@ -1,8 +1,5 @@
 package com.lc.javase;
 
-import com.lc.javase.base.StringStudy;
-
-import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Test {
