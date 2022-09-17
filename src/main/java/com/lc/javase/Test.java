@@ -32,5 +32,13 @@ public class Test {
         Thread t2 = new Thread(runnable);
         t1.start();
         t2.start();
+        // while (true) {
+        //     try {
+        //         Thread.sleep(1000L);
+        //         System.out.println("num = " + num);
+        //     } catch (InterruptedException e) {
+        //         e.printStackTrace();
+        //     }
+        // }
     }
 }
