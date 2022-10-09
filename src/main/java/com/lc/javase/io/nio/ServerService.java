@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class ServerService implements Runnable {
-    private static final int PORT = 9999;
+    private static final int PORT = 8888;
 
     private Selector selector;
     private ServerSocketChannel ssc;
