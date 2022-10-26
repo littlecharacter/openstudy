@@ -21,7 +21,7 @@ public class ReferenceStudy {
         // 略
     }
 
-    // 软 -> 缓存、防止内存泄漏
+    // 软 -> 缓存
     private static void testSoftReference() {
         SoftReference<byte[]> sr = new SoftReference<>(new byte[1024 * 1024 * 10]);
         sr.get()[0] = 5;
@@ -31,7 +31,7 @@ public class ReferenceStudy {
         System.out.println(sr.get());
     }
 
-    // 弱 -> 每次 GC 都会清除，没啥用
+    // 弱 -> 每次 GC 都会清除，防止内存泄漏 -> ThreadLocal
     private static void testWeakReference() {
         WeakReference<byte[]> wr = new WeakReference<>(new byte[1024 * 1024 * 10]);
         wr.get()[0] = 5;
