@@ -41,7 +41,7 @@ public class ReferenceStudy {
         System.out.println(wr.get());
     }
 
-    // 虚 -> 形同虚设，没啥用
+    // 虚 -> 一般来说对 Java 程序员没啥用，GC 使用，一个应用是管理堆外内存
     private static void testPhantomReference() {
         // PhantomReference<byte[]> sr = new PhantomReference<>();
 
