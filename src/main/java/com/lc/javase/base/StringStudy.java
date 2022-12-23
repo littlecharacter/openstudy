@@ -35,6 +35,16 @@ public class StringStudy {
         System.out.println("xx=" + xx.length());
         System.out.println("xx=" + xx.codePointCount(0, xx.length()));
 
+        // 不管怎么编码，只要 new 成 String，JDK 内部默认使用 UTF-16 编码
+        String yy = new String(xx.getBytes("UTF-8"),"UTF-8");
+        System.out.println("yy=" + yy);
+        System.out.println("yy=" + yy.length());
+        System.out.println("yy=" + yy.codePointCount(0, xx.length()));
+        String zz = new String(xx.getBytes("UTF-32"),"UTF-32");
+        System.out.println("zz=" + zz);
+        System.out.println("zz=" + zz.length());
+        System.out.println("zz=" + zz.codePointCount(0, xx.length()));
+
 
         StringStudy ss01 = new StringStudy();
         StringStudy ss02 = new StringStudy();
