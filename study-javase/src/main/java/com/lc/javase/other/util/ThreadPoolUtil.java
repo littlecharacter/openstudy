@@ -1,7 +1,5 @@
 package com.lc.javase.other.util;
 
-import com.sun.org.apache.xml.internal.security.Init;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -23,7 +21,7 @@ public class ThreadPoolUtil {
         if(executorService != null){
             return executorService;
         }
-        synchronized (Init.class){
+        synchronized (ThreadPoolUtil.class){
             if(executorService == null){
                 executorService = new ThreadPoolExecutor(THREAD_POOL_NUM_5, THREAD_POOL_NUM_5,
                         0L, TimeUnit.MILLISECONDS,
