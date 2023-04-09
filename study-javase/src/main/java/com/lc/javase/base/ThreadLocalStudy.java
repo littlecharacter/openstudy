@@ -1,14 +1,7 @@
 package com.lc.javase.base;
 
-import com.lc.javase.other.util.PropertyUtil;
-
-import javax.sql.DataSource;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
-import java.util.logging.Logger;
 
 public class ThreadLocalStudy {
     public static void main(String[] args) {
@@ -26,10 +19,7 @@ public class ThreadLocalStudy {
     }
 
     static class TransactionManager {
-        private static final String DB_URL = PropertyUtil.getProperty(PropertyUtil.URL)
-                + "?" + PropertyUtil.NAME + "=" + PropertyUtil.getProperty(PropertyUtil.NAME)
-                + "&" + PropertyUtil.PSWD + "=" + PropertyUtil.getProperty(PropertyUtil.PSWD);
-
+        private static final String DB_URL = "jdbc:mysql://alix:3306/db_laboratory?user=lab-gogo&password=lab-gogo";
         // private static ThreadLocal<Connection> connectionHolder = ThreadLocal.withInitial(() -> {
         //     try {
         //         return DriverManager.getConnection(DB_URL);

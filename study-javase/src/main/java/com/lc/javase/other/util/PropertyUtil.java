@@ -5,10 +5,6 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertyUtil {
-    public static final String URL = "url";
-    public static final String NAME = "user";
-    public static final String PSWD = "password";
-
     private static Properties properties;
 
     static{
@@ -19,7 +15,7 @@ public class PropertyUtil {
         properties = new Properties();
         InputStream in = null;
         try {
-            in = PropertyUtil.class.getClassLoader().getResourceAsStream("jdbc.properties");
+            in = PropertyUtil.class.getClassLoader().getResourceAsStream("conf.properties");
             properties.load(in);
         } catch (Exception e) {
             //do nothing
