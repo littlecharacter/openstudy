@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>个人主页</title>
+</head>
+<body>
+<h1 th:text="${#request.getAttribute('x')}"></h1>
+<h2 th:text="${#session.getAttribute('y')}"></h2>
+<h3 th:text="${user.id}">这是用户ID</h3>
+<h3>[[${user.realName}]]</h3>
+<p>[[${amount}]]</p>
+<p>[[${date}]]</p>
+<p th:text="${#dates.format(date, 'yyyy-MM-dd')}"></p>
+<p th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}"></p>
+</body>
+</html>

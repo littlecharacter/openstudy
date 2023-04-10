@@ -1,0 +1,61 @@
+一、打包，见pom.xml
+
+二、部署
+1、目录树
+    /opt/springboot(可以任意指定，但下面的目录结构不可以！)
+        |--bin(公用脚本)
+            |--springboot.sh start|restart|stop cluster_name(${application.cluster})
+        |--app
+            |--cluster_name_x
+                |--conf
+                |--app_name.jar(${application.name}.jar)
+            |--cluster_name_y
+                |--conf
+                |--app_name.jar(${application.name}.jar)
+        |--log
+            |--cluster_name_x
+                |--app_name.log(${application.name}.log)
+            |--cluster_name_y
+                |--app_name.log(${application.name}.log)
+注：${xx}是application.properties中的属性
+2、将打包的服务jar包和conf文件夹copy到cluster_name目录下
+3、执行springboot.sh start|restart|stop cluster_name 启动|重启|关闭服务
+
+注：打包配置根据项目结构自行配置，只要满足上面的目录结构springboot.sh脚本正常执行即可，示例如下
+<build>
+    <!-- 最终打成jar包的名称 -->
+    <finalName>study-springboot</finalName>
+    <plugins>
+        <!-- springboot maven打包插件 -->
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+        <!-- maven资源操控插件 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>copy-xmls</id>
+                    <phase>process-sources</phase>
+                    <goals>
+                        <goal>copy-resources</goal>
+                    </goals>
+                    <!-- 把所有的*.properties都拿到classes外边的conf目录下 -->
+                    <configuration>
+                        <outputDirectory>${basedir}/target/conf</outputDirectory>
+                        <resources>
+                            <resource>
+                                <directory>${basedir}/src/main/resources</directory>
+                                <includes>
+                                    <include>**/*.properties</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
