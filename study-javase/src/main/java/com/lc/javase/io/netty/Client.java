@@ -56,7 +56,7 @@ public class Client {
 
     private static class ClientHandler extends ChannelHandlerAdapter {
         // TODO 心跳检测用ScheduledExecutorService
-        @Override
+        // @Override netty5 才有这个方法，这里另寻他法
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
             try {
                 Response response = (Response) msg;

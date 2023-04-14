@@ -62,7 +62,7 @@ public class Server {
     }
 
     private static class ServerHandler extends ChannelHandlerAdapter {
-        @Override
+        // @Override netty5 才有这个方法，这里另寻他法
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
             Request request = (Request) msg;
             System.out.println(JSON.toJSONString(request));

@@ -1,7 +1,5 @@
 package com.lc.javase.jvm;
 
-import com.mysql.cj.jdbc.util.TimeUtil;
-
 import java.util.concurrent.TimeUnit;
 
 /**
