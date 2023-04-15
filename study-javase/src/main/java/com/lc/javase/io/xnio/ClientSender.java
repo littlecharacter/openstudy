@@ -1,4 +1,4 @@
-package com.lc.javase.io.nio;
+package com.lc.javase.io.xnio;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

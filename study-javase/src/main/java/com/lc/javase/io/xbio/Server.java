@@ -1,4 +1,4 @@
-package com.lc.javase.io.biox;
+package com.lc.javase.io.xbio;
 
 import java.io.IOException;
 import java.net.InetAddress;

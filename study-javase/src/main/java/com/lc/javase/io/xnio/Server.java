@@ -1,4 +1,4 @@
-package com.lc.javase.io.nio;
+package com.lc.javase.io.xnio;
 
 public class Server {
     public static void main(String[] args) {

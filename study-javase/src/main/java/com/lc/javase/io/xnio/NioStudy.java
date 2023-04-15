@@ -1,4 +1,4 @@
-package com.lc.javase.io.nio;
+package com.lc.javase.io.xnio;
 
 import java.nio.channels.*;
 import java.nio.file.Paths;
