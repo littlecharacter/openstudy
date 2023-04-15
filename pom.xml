@@ -20,6 +20,7 @@
         <module>study-javase</module>
         <module>study-algorithm</module>
         <module>study-springboot</module>
+        <module>study-netty</module>
     </modules>
 
     <dependencyManagement>

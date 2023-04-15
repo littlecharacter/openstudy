@@ -1,4 +1,4 @@
-package com.lc.javase.io.bio;
+package com.lc.javase.io.biox;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

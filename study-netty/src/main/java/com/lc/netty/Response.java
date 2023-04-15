@@ -1,13 +1,13 @@
-package com.lc.javase.io.netty;
+package com.lc.netty;
 
 import java.io.Serializable;
 
-public class Request implements Serializable {
+public class Response implements Serializable {
     private static final long  SerialVersionUID = 1L;
-    
+
     private String id;
     private String name;
-    private String requestMessage;
+    private String responseMessage;
 
     public String getId() {
         return id;
@@ -25,11 +25,11 @@ public class Request implements Serializable {
         this.name = name;
     }
 
-    public String getRequestMessage() {
-        return requestMessage;
+    public String getResponseMessage() {
+        return responseMessage;
     }
 
-    public void setRequestMessage(String requestMessage) {
-        this.requestMessage = requestMessage;
+    public void setResponseMessage(String responseMessage) {
+        this.responseMessage = responseMessage;
     }
 }

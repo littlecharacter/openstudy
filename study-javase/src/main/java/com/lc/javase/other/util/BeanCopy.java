@@ -16,6 +16,15 @@ public class BeanCopy extends BeanUtils {
         return stringToObject(JSON.toJSONString(sourceObject), targetClazz);
     }
 
+    private static <T> T stringToObject(String source, Class<T> targetClazz) {
+        try {
+            return JSONObject.parseObject(source, targetClazz);
+        } catch (Exception e) {
+            System.out.println("stringToObject:字符串转JSONObject异常!");
+        }
+        return null;
+    }
+
     public static <E> E copyBeanByReflection(Object sourceObject, Class<E> targetClazz) throws Exception {
         E appBean = targetClazz.newInstance();
         appBean = replaceProperties(sourceObject, appBean);
@@ -39,14 +48,6 @@ public class BeanCopy extends BeanUtils {
         return result;
     }
 
-    private static <T> T stringToObject(String source, Class<T> targetClazz) {
-        try {
-            return JSONObject.parseObject(source, targetClazz);
-        } catch (Exception e) {
-            System.out.println("stringToObject:字符串转JSONObject异常!");
-        }
-        return null;
-    }
 
     private static <E> E replaceProperties(Object source, E target) throws Exception {
         if (null == source || null == target) {
