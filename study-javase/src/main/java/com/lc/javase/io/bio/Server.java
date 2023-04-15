@@ -50,10 +50,12 @@ public class Server {
     }
 
     private static class ServerService implements Runnable {
-        BufferedReader reader;
+        private final Socket sc;
+        private BufferedReader reader;
         private BufferedWriter writer;
 
         public ServerService(Socket sc) {
+            this.sc = sc;
             try {
                 reader = new BufferedReader(new InputStreamReader(sc.getInputStream(), StandardCharsets.UTF_8));
                 writer = new BufferedWriter(new OutputStreamWriter(sc.getOutputStream(), StandardCharsets.UTF_8));
@@ -68,10 +70,12 @@ public class Server {
             while (true) {
                 try {
                     content = reader.readLine();
-                    System.out.println(content);
-                    if (content == null || "".equals(content)) {
-                        continue;
+                    if (content == null) {
+                        sc.close();
+                        System.out.println("server：" + sc.getLocalAddress().getHostName() + ":" + sc.getPort() + " closed!");
+                        break;
                     }
+                    System.out.println(sc.getLocalAddress().getHostName() + ":" + sc.getPort() + "：" + content);
                     writer.write(content.toUpperCase());
                     writer.newLine();
                     writer.flush();

@@ -4,14 +4,16 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author gujixian
  * @since 2023/4/15
  */
 public class Client {
-    private static final String IP = "192.168.1.101";
-    private static final int PORT = 10250;
+    public static volatile AtomicInteger ctl = new AtomicInteger(0);
+    private static final String IP = "192.168.1.9";
+    private static final int PORT = 9999;
 
     public static void main(String[] args) {
         Socket socket = null;
@@ -60,8 +62,9 @@ public class Client {
                             socket.close();
                         } catch (IOException e) {
                             e.printStackTrace();
-                            break;
                         }
+                        ctl.set(1);
+                        break;
                     }
                     writer.write(content);
                     writer.newLine();
@@ -89,11 +92,16 @@ public class Client {
         public void run() {
             String content;
             while (true) {
+                if (ctl.get() != 0) {
+                    break;
+                }
                 try {
                     content = reader.readLine();
                     System.out.println(content + "\n");
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    if (ctl.get() == 0) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
