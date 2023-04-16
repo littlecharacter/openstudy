@@ -17,6 +17,7 @@ import java.util.Arrays;
 public class TcpReusePort {
     public static void main(String[] args) throws IOException {
         Socket client = new Socket();
+        // TCP 端口重用：需要放到 Linux 系统中使用，Window 系统不支持（可能需要设置一下系统参数，懒得整）
         client.setReuseAddress(true);
         client.bind(new InetSocketAddress(1234));
         // client.connect(new InetSocketAddress("192.168.1.101", 1080));

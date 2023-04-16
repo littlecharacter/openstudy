@@ -1,7 +1,8 @@
+# 关于多线程 TEST
 在多线程环境下，程序退出的条件是，所有的非Daemon线程都正常结束或者某个线程条用了system.exit方法，导致进程强行退出。
-在idea下运行Junit的类是org.eclipse.jdt.internal.junit.runner.RemoteTestRunner。
-通过查看这个类的main方法。如下：
 
+在idea下运行Junit的类是org.eclipse.jdt.internal.junit.runner.RemoteTestRunner。通过查看这个类的main方法。如下：
+```java
 public static void main(String  [] args) {
 	try {
 		RemoteTestRunner testRunServer= new RemoteTestRunner();
@@ -14,5 +15,5 @@ public static void main(String  [] args) {
 		System.exit(0);
 	}
 }
-
-显然，只要主线程结束，整个程序将会退出，这就是采用junit的时候奇怪退出程序的原因。
+```
+<font color="red">显然，只要主线程结束，整个程序将会退出，这就是采用junit的时候奇怪退出程序的原因。</font>
