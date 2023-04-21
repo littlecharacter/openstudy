@@ -1,18 +1,16 @@
 package com.lc.javase.net;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * TCP 连接和传输控制
- * 1、服务启动之后，开数量大于 BACK_LOG+1 的客户端去连接，期间卡在控制点，观察 Send-Q、Recv-Q、State、PID
- * 2、客户端发送数据，多发点，期间依旧卡在控制点，观察 Send-Q、Recv-Q、State、PID
+ * 1、服务启动之后，开数量大于 BACK_LOG+1 的客户端去连接，期间卡在控制点，netstat 和 ss 观察 Send-Q、Recv-Q、State、PID
+ * 2、客户端发送数据，多发点，期间依旧卡在控制点，netstate 和 ss 观察 Send-Q、Recv-Q、State、PID
+ * 3、tcpdum -nn -i eth0 port 9090 观察客户端数据发送时"接收窗口K"的变化
  *
  * @author gujixian
  * @since 2023/4/16
@@ -26,7 +24,7 @@ public class TcpControl {
     private static final boolean REUSE_ADDR = false;
     private static final int BACK_LOG = 2;
     // client socket (listen) property on server endpoint:
-    private static final boolean CLI_KEEPALIVE = false;
+    private static final boolean CLI_KEEPALIVE = true;
     // 是否在发送内容前，先吧内容的第一个字节发出去 -> 提前确认网络通畅，一般没必要开
     private static final boolean CLI_OOB = false;
     private static final int CLI_REC_BUF = 20;
@@ -47,7 +45,7 @@ public class TcpControl {
     // StandardSocketOptions.SO_REUSEADDR
 
     public static void main(String[] args) {
-        String role = args[0];
+        String role = args[1];
         if (Objects.equals("client", role)) {
             startClient();
         } else if (Objects.equals("server", role)) {
@@ -59,11 +57,12 @@ public class TcpControl {
         Socket socket = null;
         try {
             System.out.println("client：正在连接服务器...");
-            socket = new Socket("192.168.1.7", 9090);
+            socket = new Socket("192.168.1.101", 9090);
             System.out.println("client：连接服务器成功!");
 
             socket.setTcpNoDelay(CLI_NO_DELAY);
             socket.setSendBufferSize(CLI_SEND_BUF);
+            socket.setKeepAlive(CLI_KEEPALIVE);
 
 
             new Thread(new ClientSender(socket)).start();
@@ -111,10 +110,18 @@ public class TcpControl {
                         ctl.set(1);
                         break;
                     }
-                    writer.write(content);
-                    writer.newLine();
-                    writer.flush();
-                } catch (Exception e) {
+                    try {
+                        writer.write(content);
+                        writer.newLine();
+                        writer.flush();
+                    } catch (SocketException e) {
+                        if (Objects.nonNull(socket)) {
+                            System.out.println("client sender：socket closed!");
+                            socket.close();
+                        }
+                        break;
+                    }
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -122,9 +129,11 @@ public class TcpControl {
     }
 
     private static class ClientReceiver implements Runnable {
+        private final Socket socket;
         private BufferedReader reader;
 
         public ClientReceiver(Socket socket) {
+            this.socket = socket;
             try {
                 reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
             } catch (IOException e) {
@@ -141,12 +150,21 @@ public class TcpControl {
                     break;
                 }
                 try {
-                    content = reader.readLine();
+                    try {
+                        content = reader.readLine();
+                    } catch (SocketException e) {
+                        if (Objects.nonNull(socket)) {
+                            System.out.println("client receiver：socket closed!");
+                            socket.close();
+                        }
+                        break;
+                    }
+                    if (Objects.isNull(content)) {
+                        continue;
+                    }
                     System.out.println(content + "\n");
                 } catch (IOException e) {
-                    if (ctl.get() == 0) {
-                        e.printStackTrace();
-                    }
+                    e.printStackTrace();
                 }
             }
         }
@@ -221,11 +239,15 @@ public class TcpControl {
             String content;
             while (true) {
                 try {
-                    content = reader.readLine();
-                    if (content == null) {
-                        sc.close();
+                    try {
+                        content = reader.readLine();
+                    } catch (SocketException e) {
                         System.out.println("server：" + sc.getLocalAddress().getHostName() + ":" + sc.getPort() + " closed!");
+                        sc.close();
                         break;
+                    }
+                    if (Objects.isNull(content)) {
+                        continue;
                     }
                     System.out.println(sc.getLocalAddress().getHostName() + ":" + sc.getPort() + "：" + content);
                     writer.write(content.toUpperCase());
