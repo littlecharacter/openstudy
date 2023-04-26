@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Client {
     public static volatile AtomicInteger ctl = new AtomicInteger(0);
-    private static final String IP = "192.168.1.9";
+    private static final String IP = "192.168.1.12";
     private static final int PORT = 9999;
 
     public static void main(String[] args) {
@@ -22,6 +22,8 @@ public class Client {
             socket = new Socket(InetAddress.getByName(IP), PORT);
             System.out.println("client：连接服务器成功!");
             new Thread(new ClientSender(socket)).start();
+            // 如果有两个线程读取同一个 Socket，那么这两个线程会交替读取 Socket <- 这里模拟的是，每次读的时候都会阻塞，进程挂起在 Socket 的等待队列
+            new Thread(new ClientReceiver(socket)).start();
             new Thread(new ClientReceiver(socket)).start();
         } catch (Exception e) {
             System.out.println("client：连接服务器失败!");
@@ -97,7 +99,7 @@ public class Client {
                 }
                 try {
                     content = reader.readLine();
-                    System.out.println(content + "\n");
+                    System.out.println(Thread.currentThread().getName() + content + "\n");
                 } catch (IOException e) {
                     if (ctl.get() == 0) {
                         e.printStackTrace();
