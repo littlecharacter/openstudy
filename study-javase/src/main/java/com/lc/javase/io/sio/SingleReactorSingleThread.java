@@ -28,7 +28,7 @@ public class SingleReactorSingleThread {
              * select、poll：什么也不做
              * epoll：epoll_create -> fd3，指向内核开辟的一块红黑树空间
              */
-            selector = Selector.open();  // select  poll  epoll
+            selector = Selector.open();  // select  poll  epoll，可以使用 -Djava.nio.channels.spi.SelectorProvider=sun.nio.ch.PollSelectorProvider 来指定
         } catch (IOException e) {
             System.out.println("server：多路服务器启动失败！");
             e.printStackTrace();
