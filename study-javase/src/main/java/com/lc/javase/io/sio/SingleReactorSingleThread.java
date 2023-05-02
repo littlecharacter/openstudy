@@ -35,7 +35,7 @@ public class SingleReactorSingleThread {
         }
     }
 
-    private void startServer() {
+    private void start() {
         try {
             System.out.println("server：服务端启动...");
             ServerSocketChannel server = ServerSocketChannel.open();
@@ -55,7 +55,7 @@ public class SingleReactorSingleThread {
         }
     }
 
-    private void handleBusiness() {
+    private void handle() {
         while (true) {
             try {
                 Set<SelectionKey> allKeys = selector.keys();
@@ -75,6 +75,7 @@ public class SingleReactorSingleThread {
                         SelectionKey key = iterator.next();
                         iterator.remove();
                         if (key.isAcceptable()) {
+                            // key.cancel(); // 取消注册 -> epoll_ctl(fd, del, ...)
                             this.handleAccept(key);
                             continue;
                         }
@@ -136,7 +137,7 @@ public class SingleReactorSingleThread {
 
     public static void main(String[] args) {
         SingleReactorSingleThread server = new SingleReactorSingleThread();
-        server.startServer();
-        server.handleBusiness();
+        server.start();
+        server.handle();
     }
 }
