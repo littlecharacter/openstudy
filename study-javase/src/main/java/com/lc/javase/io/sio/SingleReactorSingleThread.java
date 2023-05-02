@@ -23,17 +23,16 @@ public class SingleReactorSingleThread {
 
     public SingleReactorSingleThread() {
         try {
+            /*
+             * 往下追，最终调用的是 native 方法
+             * select、poll：什么也不做
+             * epoll：epoll_create -> fd3，指向内核开辟的一块红黑树空间
+             */
             selector = Selector.open();  // select  poll  epoll
         } catch (IOException e) {
             System.out.println("server：多路服务器启动失败！");
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        SingleReactorSingleThread server = new SingleReactorSingleThread();
-        server.startServer();
-        server.handleBusiness();
     }
 
     private void startServer() {
@@ -42,6 +41,12 @@ public class SingleReactorSingleThread {
             ServerSocketChannel server = ServerSocketChannel.open();
             server.configureBlocking(false);
             server.bind(new InetSocketAddress(port));
+            /*
+             * 往下追，最终调用的是 native 方法
+             * select：fd4，放在 JVM 里开辟的几个 fd 数组（每个关注事件的类型一个数组）里
+             * poll：fd4，放在 JVM 里开辟的一个 fd 数组（fd 标记关注事件的类型）里
+             * epoll：fd4，epoll_ctl（fd3, ADD, fd4, EPOLLIN）
+             */
             server.register(selector, SelectionKey.OP_ACCEPT);
             System.out.println("server：服务端启动成功！");
         } catch (IOException e) {
@@ -55,9 +60,17 @@ public class SingleReactorSingleThread {
             try {
                 Set<SelectionKey> allKeys = selector.keys();
                 System.out.println("server：allKeys.size=" + allKeys.size());
+                /*
+                 * 往下追，最终调用的是 native 方法
+                 * select、poll：把 fd 数组传给内核，询问每个 fd 的状态
+                 * epoll：epoll_wait(fd3, events, max_event, timeout)，获取内核中就绪的 fd
+                 *        timeout：0-非阻塞调用，-1-阻塞调用，>0-限时阻塞调用，
+                 *                 当 timeout 为 -1 时，Selector 提供 selector.wakeup() 唤醒 -> selector.select() 返回 0
+                 */
                 while (selector.select(500) > 0) {
                     Set<SelectionKey> selectionKeys = selector.selectedKeys();
                     Iterator<SelectionKey> iterator = selectionKeys.iterator();
+                    // 不管何种多路复用器，得到的只是就绪 fd 的状态，用户进程还得一个个去处理 accept/read/write，这就是同步
                     while (iterator.hasNext()) {
                         SelectionKey key = iterator.next();
                         iterator.remove();
@@ -66,6 +79,7 @@ public class SingleReactorSingleThread {
                             continue;
                         }
                         if (key.isReadable()) {
+                            // 可能回阻塞 -> 下一步就是引入 IO Threads 专门处理
                             this.handleRead(key);
                         }
                     }
@@ -117,5 +131,12 @@ public class SingleReactorSingleThread {
 
     private String getClientName(Socket socket) {
         return socket.getLocalAddress().getHostName() + ":" + socket.getPort();
+    }
+
+
+    public static void main(String[] args) {
+        SingleReactorSingleThread server = new SingleReactorSingleThread();
+        server.startServer();
+        server.handleBusiness();
     }
 }
