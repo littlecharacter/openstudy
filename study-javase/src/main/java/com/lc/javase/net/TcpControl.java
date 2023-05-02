@@ -54,29 +54,20 @@ public class TcpControl {
     }
 
     private static void startClient() {
-        Socket socket = null;
         try {
             System.out.println("client：正在连接服务器...");
-            socket = new Socket("192.168.1.101", 9090);
+            Socket socket = new Socket("192.168.1.101", 9090);
             System.out.println("client：连接服务器成功!");
 
             socket.setTcpNoDelay(CLI_NO_DELAY);
             socket.setSendBufferSize(CLI_SEND_BUF);
             socket.setKeepAlive(CLI_KEEPALIVE);
 
-
             new Thread(new ClientSender(socket)).start();
             new Thread(new ClientReceiver(socket)).start();
         } catch (Exception e) {
             System.out.println("client：连接服务器失败!");
             e.printStackTrace();
-            try {
-                if (socket != null) {
-                    socket.close();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
         }
     }
 
@@ -102,11 +93,7 @@ public class TcpControl {
                 try {
                     content = reader.readLine();
                     if ("exit".equalsIgnoreCase(content)) {
-                        try {
-                            socket.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        closeSocket();
                         ctl.set(1);
                         break;
                     }
@@ -115,15 +102,21 @@ public class TcpControl {
                         writer.newLine();
                         writer.flush();
                     } catch (SocketException e) {
-                        if (Objects.nonNull(socket)) {
-                            System.out.println("client sender：socket closed!");
-                            socket.close();
-                        }
+                        System.out.println("client sender：socket 已关闭!");
+                        closeSocket();
                         break;
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+
+        private void closeSocket() {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -153,10 +146,8 @@ public class TcpControl {
                     try {
                         content = reader.readLine();
                     } catch (SocketException e) {
-                        if (Objects.nonNull(socket)) {
-                            System.out.println("client receiver：socket closed!");
-                            socket.close();
-                        }
+                        System.out.println("client receiver：socket 已关闭!");
+                        closeSocket();
                         break;
                     }
                     if (Objects.isNull(content)) {
@@ -166,6 +157,14 @@ public class TcpControl {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+
+        private void closeSocket() {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -187,20 +186,20 @@ public class TcpControl {
                     // 控制点
                     System.in.read();
                     // 发生阻塞,等待客户端连接
-                    Socket sc = ss.accept();
-                    InetAddress addr = sc.getLocalAddress();
-                    System.out.println("server：" + addr.getHostName() + ":" + sc.getPort() + " connected!");
+                    Socket client = ss.accept();
+                    InetAddress addr = client.getLocalAddress();
+                    System.out.println("server：" + addr.getHostName() + ":" + client.getPort() + " connected!");
 
-                    sc.setKeepAlive(CLI_KEEPALIVE);
-                    sc.setOOBInline(CLI_OOB);
-                    sc.setTcpNoDelay(CLI_NO_DELAY);
-                    sc.setReceiveBufferSize(CLI_REC_BUF);
-                    sc.setSendBufferSize(CLI_SEND_BUF);
-                    sc.setSoLinger(CLI_LINGER, CLI_LINGER_N);
-                    sc.setSoTimeout(CLI_TIMEOUT);
+                    client.setKeepAlive(CLI_KEEPALIVE);
+                    client.setOOBInline(CLI_OOB);
+                    client.setTcpNoDelay(CLI_NO_DELAY);
+                    client.setReceiveBufferSize(CLI_REC_BUF);
+                    client.setSendBufferSize(CLI_SEND_BUF);
+                    client.setSoLinger(CLI_LINGER, CLI_LINGER_N);
+                    client.setSoTimeout(CLI_TIMEOUT);
 
                     // 为新的连接分配一个线程处理读写任务
-                    new Thread(new ServerService(sc)).start();
+                    new Thread(new ServerService(client)).start();
                 } catch (IOException e) {
                     System.out.println("server：有客户端连接失败!" + e.getMessage());
                 }
@@ -220,15 +219,15 @@ public class TcpControl {
     }
 
     private static class ServerService implements Runnable {
-        private final Socket sc;
+        private final Socket client;
         private BufferedReader reader;
         private BufferedWriter writer;
 
-        public ServerService(Socket sc) {
-            this.sc = sc;
+        public ServerService(Socket client) {
+            this.client = client;
             try {
-                reader = new BufferedReader(new InputStreamReader(sc.getInputStream(), StandardCharsets.UTF_8));
-                writer = new BufferedWriter(new OutputStreamWriter(sc.getOutputStream(), StandardCharsets.UTF_8));
+                reader = new BufferedReader(new InputStreamReader(client.getInputStream(), StandardCharsets.UTF_8));
+                writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream(), StandardCharsets.UTF_8));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -242,20 +241,28 @@ public class TcpControl {
                     try {
                         content = reader.readLine();
                     } catch (SocketException e) {
-                        System.out.println("server：" + sc.getLocalAddress().getHostName() + ":" + sc.getPort() + " closed!");
-                        sc.close();
+                        System.out.println("server：" + client.getLocalAddress().getHostName() + ":" + client.getPort() + " closed!");
+                        closeSocket();
                         break;
                     }
                     if (Objects.isNull(content)) {
                         continue;
                     }
-                    System.out.println(sc.getLocalAddress().getHostName() + ":" + sc.getPort() + "：" + content);
+                    System.out.println(client.getLocalAddress().getHostName() + ":" + client.getPort() + "：" + content);
                     writer.write(content.toUpperCase());
                     writer.newLine();
                     writer.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+
+        private void closeSocket() {
+            try {
+                client.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

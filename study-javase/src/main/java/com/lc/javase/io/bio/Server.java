@@ -4,7 +4,9 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 /**
  * @author gujixian
@@ -26,11 +28,11 @@ public class Server {
             while (true) {
                 // 发生阻塞,等待客户端连接
                 try {
-                    Socket sc = ss.accept();
-                    InetAddress addr = sc.getLocalAddress();
-                    System.out.println("server：" + addr.getHostName() + ":" + sc.getPort() + " connected!");
+                    Socket client = ss.accept();
+                    InetAddress addr = client.getLocalAddress();
+                    System.out.println("server：" + addr.getHostName() + ":" + client.getPort() + " connected!");
                     // 为新的连接分配一个线程处理读写任务
-                    new Thread(new ServerService(sc)).start();
+                    new Thread(new ServerService(client)).start();
                 } catch (IOException e) {
                     System.out.println("server：有客户端连接失败!" + e.getMessage());
                 }
@@ -50,15 +52,15 @@ public class Server {
     }
 
     private static class ServerService implements Runnable {
-        private final Socket sc;
+        private final Socket client;
         private BufferedReader reader;
         private BufferedWriter writer;
 
-        public ServerService(Socket sc) {
-            this.sc = sc;
+        public ServerService(Socket client) {
+            this.client = client;
             try {
-                reader = new BufferedReader(new InputStreamReader(sc.getInputStream(), StandardCharsets.UTF_8));
-                writer = new BufferedWriter(new OutputStreamWriter(sc.getOutputStream(), StandardCharsets.UTF_8));
+                reader = new BufferedReader(new InputStreamReader(client.getInputStream(), StandardCharsets.UTF_8));
+                writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream(), StandardCharsets.UTF_8));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -69,19 +71,31 @@ public class Server {
             String content;
             while (true) {
                 try {
-                    content = reader.readLine();
-                    if (content == null) {
-                        sc.close();
-                        System.out.println("server：" + sc.getLocalAddress().getHostName() + ":" + sc.getPort() + " closed!");
+                    try {
+                        content = reader.readLine();
+                    } catch (SocketException e) {
+                        System.out.println("server：" + client.getLocalAddress().getHostName() + ":" + client.getPort() + " closed!");
+                        closeSocket();
                         break;
                     }
-                    System.out.println(sc.getLocalAddress().getHostName() + ":" + sc.getPort() + "：" + content);
+                    if (Objects.isNull(content)) {
+                        continue;
+                    }
+                    System.out.println(client.getLocalAddress().getHostName() + ":" + client.getPort() + "：" + content);
                     writer.write(content.toUpperCase());
                     writer.newLine();
                     writer.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+
+        private void closeSocket() {
+            try {
+                client.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
