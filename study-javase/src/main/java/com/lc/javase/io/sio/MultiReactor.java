@@ -12,17 +12,17 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * IO 多路复用线程模型：多 Reactor，混杂模型
+ * IO 多路复用线程模型：多 Reactor
  *
  * @author gujixian
  * @since 2023/5/1
  */
-public class MultiReactorMixed {
+public class MultiReactor {
     private final int port = 9090;
     private Selector bossSelector;
     private final Selector[] workSelectors = new Selector[2];
 
-    public MultiReactorMixed() {
+    public MultiReactor() {
         try {
             bossSelector = Selector.open();
             for (int i = 0; i < workSelectors.length; i++) {
@@ -180,7 +180,7 @@ public class MultiReactorMixed {
 
 
     public static void main(String[] args) {
-        MultiReactorMixed server = new MultiReactorMixed();
+        MultiReactor server = new MultiReactor();
         server.start();
         server.handle();
     }
