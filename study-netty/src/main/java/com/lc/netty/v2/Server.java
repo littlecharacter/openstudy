@@ -1,6 +1,8 @@
-package com.lc.netty;
+package com.lc.netty.v2;
 
 import com.alibaba.fastjson.JSON;
+import com.lc.netty.Request;
+import com.lc.netty.Response;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
