@@ -14,6 +14,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * IO 多路复用线程模型：多 Reactor，主从模型
+ *
+ * EventLoop - Selector
+ * EventLoopGroup - 负载均衡
+ * Bootstrap - 组织者
  * 
  * @author gujixian
  * @since 2023/5/1
