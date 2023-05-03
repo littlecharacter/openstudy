@@ -34,6 +34,7 @@ public class Client {
 
         group.register(client);
 
+        // 响应式编程
         ChannelPipeline pipeline = client.pipeline();
         pipeline.addLast(new ReceiveHandler());
 

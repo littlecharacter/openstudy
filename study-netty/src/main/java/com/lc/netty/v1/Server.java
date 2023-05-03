@@ -17,6 +17,7 @@ public class Server {
 
         group.register(server);
 
+        // 响应式编程
         ChannelPipeline pipeline = server.pipeline();
         pipeline.addLast(new AcceptHandler(group, new ChannelInitializer() {
             @Override
