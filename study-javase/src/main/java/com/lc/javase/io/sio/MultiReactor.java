@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * IO 多路复用线程模型：多 Reactor
+ * IO 多路复用线程模型：多 Reactor（雏形）
  *
  * @author gujixian
  * @since 2023/5/1
@@ -71,6 +71,8 @@ public class MultiReactor {
         public void run() {
             while (true) {
                 try {
+                    // 问题：这里通常是要阻塞的
+                    // 注意，这里阻塞，会导致 xx.register(selector, SelectionKey.XX) 也会阻塞 -> V2 版本
                     while (bossSelector.select(500) > 0) {
                         Set<SelectionKey> selectionKeys = bossSelector.selectedKeys();
                         Iterator<SelectionKey> iterator = selectionKeys.iterator();

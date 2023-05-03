@@ -9,11 +9,10 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * IO 多路复用线程模型：多 Reactor，主从模型
+ * IO 多路复用线程模型：多 Reactor（主从模型）
  *
  * EventLoop - Selector
  * EventLoopGroup - 负载均衡
@@ -22,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author gujixian
  * @since 2023/5/1
  */
-public class MultiReactorMasterSlave {
+public class MultiReactorV2 {
 
     public static void main(String[] args) throws Exception {
         EventLoopGroup bossGroup = new EventLoopGroup(3, "BOSS");
