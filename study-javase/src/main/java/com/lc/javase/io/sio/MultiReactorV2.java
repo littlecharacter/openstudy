@@ -12,7 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * IO 多路复用线程模型：多 Reactor（主从模型）
+ * IO 多路复用线程模型：多 Reactor（主从模型），Netty 雏形
  *
  * EventLoop - Selector
  * EventLoopGroup - 负载均衡
