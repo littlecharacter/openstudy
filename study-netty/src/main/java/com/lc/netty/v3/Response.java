@@ -1,4 +1,4 @@
-package com.lc.netty;
+package com.lc.netty.v3;
 
 import java.io.Serializable;
 
