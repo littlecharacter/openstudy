@@ -21,6 +21,7 @@
         <module>study-algorithm</module>
         <module>study-springboot</module>
         <module>study-netty</module>
+        <module>study-pattern</module>
     </modules>
 
     <dependencyManagement>
@@ -48,6 +49,12 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>28.2-jre</version>
+            </dependency>
+            <!-- javasist -->
+            <dependency>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>3.29.2-GA</version>
             </dependency>
             <!--lombok-->
             <dependency>
