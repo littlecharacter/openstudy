@@ -1,4 +1,4 @@
-package com.lc.javase.jvm;
+package com.lc.javase.jvm.classloader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -14,6 +14,8 @@ import java.nio.channels.WritableByteChannel;
  * 改变双亲委托机制有两种方法：
  * 1、给自定义的parent类加载器传 null
  * 2、直接暴露findClass方法，调用findClass方法直接加载类
+ *
+ * 观察输出信息中的类加载器是否相同！
  */
 public class MyClassLoader extends ClassLoader {
     private String path;
@@ -76,22 +78,33 @@ public class MyClassLoader extends ClassLoader {
         }
         System.out.println("ClassLoader：" + classLoader);
 
-        MyClassLoader classpathClassLoader = new MyClassLoader("E:\\");
-        Class classpathClazz = classpathClassLoader.loadClass("com.lc.javase.jvm.HelloWorld");
+        String classPath = "E:\\JetBrains\\IntelliJIdea\\Studyspace\\openstudy\\study-javase\\target\\classes\\";
+
+        MyClassLoader classpathClassLoader = new MyClassLoader(classPath);
+        Class classpathClazz = classpathClassLoader.loadClass("com.lc.javase.jvm.classloader.MyClassLoader$HelloWorld");
         Method classpathSayHello = classpathClazz.getDeclaredMethod("sayHello", String.class);
         System.out.println(classpathSayHello.invoke(classpathClazz.newInstance(), "world"));
 
-        MyClassLoader customClassLoader = new MyClassLoader(null,"E:\\");
-        Class customClazz = customClassLoader.loadClass("com.lc.javase.jvm.HelloWorld");
+        MyClassLoader customClassLoader = new MyClassLoader(null,classPath);
+        Class customClazz = customClassLoader.loadClass("com.lc.javase.jvm.classloader.MyClassLoader$HelloWorld");
         Method customSayHello = customClazz.getDeclaredMethod("sayHello", String.class);
         System.out.println(customSayHello.invoke(customClazz.newInstance(), "world1"));
 
-        customClassLoader = new MyClassLoader(null,"E:\\");
-        customClazz = customClassLoader.loadClass("com.lc.javase.jvm.HelloWorld");
+        customClassLoader = new MyClassLoader(null,classPath);
+        customClazz = customClassLoader.loadClass("com.lc.javase.jvm.classloader.MyClassLoader$HelloWorld");
         customSayHello = customClazz.getDeclaredMethod("sayHello", String.class);
         System.out.println(customSayHello.invoke(customClazz.newInstance(), "world2"));
 
         HelloWorld helloWorld = new HelloWorld();
         System.out.println(helloWorld.sayHello("gujx"));
+    }
+
+    public static class HelloWorld {
+        public String sayHello(String name){
+            ClassLoader classLoader = HelloWorld.class.getClassLoader();
+            String hw = "hw";
+            System.out.println(hw.getClass().getClassLoader());
+            return "Hello " + name + ", i am loaded by " + classLoader + ".";
+        }
     }
 }
