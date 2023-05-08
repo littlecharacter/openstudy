@@ -1,5 +1,8 @@
 package com.lc.javase.base;
 
+import java.lang.ref.PhantomReference;
+import java.lang.ref.ReferenceQueue;
+
 public class BaseStudy {
     private static String name;
 
@@ -23,6 +26,9 @@ public class BaseStudy {
 
         System.out.println(Integer.MAX_VALUE);
         System.out.println(Integer.MIN_VALUE);
+        ReferenceQueue referenceQueue = null;
+        PhantomReference x = new PhantomReference(new Object(), referenceQueue);
+        ;
     }
 
     public void eq() {
