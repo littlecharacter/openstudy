@@ -5,6 +5,8 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author gujixian
  * @since 2023/5/9
@@ -16,6 +18,9 @@ public class ServiceCaller implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println(helloService.sayHello("gujixian"));
+        for (;;) {
+            System.out.println(helloService.sayHello("gujixian"));
+            TimeUnit.SECONDS.sleep(1);
+        }
     }
 }
