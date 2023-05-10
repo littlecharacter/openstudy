@@ -16,19 +16,25 @@ public class BaseStudy {
     }
 
     public static void main(String[] args) throws Exception {
-        BaseStudy baseStudy = new BaseStudy("123");
+        BaseStudy BaseStudy = new BaseStudy("123");
         System.out.println(BaseStudy.name);
 
         Class clazz = BaseStudy.class;
         clazz.getName();
         clazz.newInstance();
         // clazz.getMethod("xx").invoke();
+        Class<? extends Class> aClass = clazz.getClass();
+        System.out.println(clazz);
+        System.out.println(aClass);
+        System.out.println(aClass.getClass());
 
         System.out.println(Integer.MAX_VALUE);
         System.out.println(Integer.MIN_VALUE);
         ReferenceQueue referenceQueue = null;
         PhantomReference x = new PhantomReference(new Object(), referenceQueue);
         ;
+
+
     }
 
     public void eq() {
