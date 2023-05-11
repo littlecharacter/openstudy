@@ -3,10 +3,7 @@ package com.lc.javase.collection;
 import com.lc.javase.other.util.NumberUtil;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.*;
 
 public class CollectionStudy {
     public void studyCollection() {

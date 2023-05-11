@@ -9,6 +9,8 @@ public class InitStudy {
     public static InitStudy initStudy = new InitStudy();
     public static int x = 5; // 结果为 1,5,5
 
+    public int y = 5;
+
     static {
         System.out.println("static block is called");
         System.out.println("static block x:" + x);
@@ -21,6 +23,8 @@ public class InitStudy {
 
     {
         System.out.println("constructor block is called");
+        // System.out.println("constructor block y:" + initStudy.y);
+        // System.out.println("constructor block hash code:" + initStudy.hashCode());
     }
 
     public static void main(String[] args) {
