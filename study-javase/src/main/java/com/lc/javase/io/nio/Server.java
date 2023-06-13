@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSON;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
@@ -61,7 +60,7 @@ public class Server {
                 }
 
                 // ByteBuffer buffer = ByteBuffer.allocate(4096); JVM 堆里
-                ByteBuffer buffer = ByteBuffer.allocateDirect(4096); // JVM 堆外
+                ByteBuffer buffer = ByteBuffer.allocateDirect(4096);// JVM 堆外
 
                 System.out.println(JSON.toJSONString(clientMap));
                 for (Iterator<Map.Entry<String, SocketChannel>> iterator = clientMap.entrySet().iterator(); iterator.hasNext();){

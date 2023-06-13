@@ -14,33 +14,22 @@ public class SafePointStudy {
         }
     });
 
-    private static final Thread t2 = new Thread(() -> {
-        while (true) {
-            try {
-                TimeUnit.MILLISECONDS.sleep(5L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            byte[] bytes = new byte[50 * 1024];
-        }
-    });
+    // 不触发 GC 也可能进入安全点
+    // private static final Thread t2 = new Thread(() -> {
+    //     while (true) {
+    //         try {
+    //             TimeUnit.MILLISECONDS.sleep(5L);
+    //         } catch (InterruptedException e) {
+    //             e.printStackTrace();
+    //         }
+    //         byte[] bytes = new byte[50 * 1024];
+    //     }
+    // });
 
     public static void main(String[] args) throws InterruptedException {
-        // new Thread(() -> {
-        //     while (true) {
-        //         long start = System.currentTimeMillis();
-        //         try {
-        //             TimeUnit.MILLISECONDS.sleep(1000L);
-        //         } catch (InterruptedException e) {
-        //             e.printStackTrace();
-        //         }
-        //         long cost = System.currentTimeMillis() - start;
-        //         (cost > 1100L ? System.err : System.out).printf("thread: %s, costs %d ms\n", Thread.currentThread().getName(), cost);
-        //     }
-        // }).start();
         t1.start();
-        t2.start();
-        while (true) {
+        // t2.start();
+        for (int i = 0; i < 100; i++) {
             long start = System.currentTimeMillis();
             TimeUnit.MILLISECONDS.sleep(1000L);
             long cost = System.currentTimeMillis() - start;
