@@ -80,6 +80,7 @@ public class Doubling {
                 int nextIndex = suffix.index + m / 2;
                 suffix.next = (nextIndex < n) ? suffixes[sa[nextIndex]].rank : -1;
             }
+            // 循环将后缀数组按照字典序排序
             Arrays.sort(suffixes);
         }
         // 构建最终的后缀数组
