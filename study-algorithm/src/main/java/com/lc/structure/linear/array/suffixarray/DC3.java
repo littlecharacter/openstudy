@@ -1,7 +1,7 @@
 package com.lc.structure.linear.array.suffixarray;
 
 /**
- * 后缀数组：最主要的就是 sa，rank 和 height 及其对应的方法都可以删除，存在是为了解决相关题目方便
+ * DC3 算法求后缀数组：最主要的就是 sa，rank 和 height 及其对应的方法都可以删除，存在是为了解决相关题目方便
  * @author gujixian
  * @since 2023/6/29
  */
@@ -19,7 +19,7 @@ public class DC3 {
     public DC3(int[] nums, int max) {
         sa = sa(nums, max);
         rank = rank();
-        // height = height(nums);
+        height = height(nums);
     }
 
     private int[] sa(int[] nums, int max) {
@@ -155,10 +155,23 @@ public class DC3 {
     public static void main(String[] args) {
         int len = 100000;
         int maxValue = 100;
-        long start = System.currentTimeMillis();
-        new DC3(randomArray(len, maxValue), maxValue);
-        long end = System.currentTimeMillis();
-        System.out.println("数据量 " + len + ", 运行时间 " + (end - start) + " ms");
+        for (int i = 0; i < 100; i++) {
+            long start = System.currentTimeMillis();
+            int[] arr = randomArray(len, maxValue);
+            DC3 dc3 = new DC3(arr, maxValue);
+            long end = System.currentTimeMillis();
+            System.out.println("数据量 " + len + ", 运行时间 " + (end - start) + " ms");
+
+            // 倍增法 和 DC3算法 结果对比
+            int[] sa = new Doubling().sa(arr);
+            for (int j = 0; j < sa.length; j++) {
+                if (sa[j] != dc3.sa[j]) {
+                    System.out.println("验证失败！");
+                    return;
+                }
+            }
+        }
+        System.out.println("验证通过！");
     }
 
     private static int[] randomArray(int len, int maxValue) {
