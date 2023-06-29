@@ -96,7 +96,7 @@ public class Doubling {
         int index;
         // 后缀的排名
         int rank;
-        // 下一个后缀的排名：若比较的是后缀的前 k 个位置，则 next 表示以(index + k / 2) 为起始位置的后缀的排名
+        // 下一个后缀的排名：若比较的是后缀的前 M 个位置，则 next 表示以(index + M / 2) 为起始位置的后缀的排名
         int next;
 
         public Suffix(int index, int rank, int next) {
