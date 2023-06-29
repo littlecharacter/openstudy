@@ -21,6 +21,7 @@ public class TEST {
         long result = process(3, 0, n);
         return (int)(result % 1000000007L);
     }
+
     // status：前一列的状态
     // index：当前列
     private long process(int status, int index, int n) {
