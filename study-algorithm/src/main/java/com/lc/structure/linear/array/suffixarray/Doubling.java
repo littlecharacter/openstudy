@@ -30,6 +30,10 @@ import java.util.Arrays;
  *
  * 注意：过程中必须保留相同排名，不然结果可能不正确
  *
+ * 后缀数组：sa[i] 表示将所有后缀排序（字典序由小到大）后第 i 小的后缀的编号（原数组下标）
+ * 排名数组：rank[i] 表示后缀 i 的排名，是重要的辅助数组，
+ * 高度数组：height[i] = lcp(sa[i], sa[i-1])，即第 i 名的后缀与它前一名的后缀的最长公共前缀的长度（LCP），height[0] = 0
+ *
  * @author gujixian
  * @since 2023/6/29
  */
@@ -91,6 +95,33 @@ public class Doubling {
         return suffixArray;
     }
 
+    public int[] rank(int[] sa) {
+        int[] rank = new int[sa.length];
+        for (int i = 0; i < sa.length; i++) {
+            rank[sa[i]] = i;
+        }
+        return rank;
+    }
+
+    public int[] height(int[] nums, int[] sa) {
+        int[] rank = this.rank(sa);
+        int n = nums.length;
+        int[] height = new int[n];
+        for (int i = 0, k = 0; i < n; ++i) {
+            if (rank[i] != 0) {
+                if (k > 0) {
+                    --k;
+                }
+                int j = sa[rank[i] - 1];
+                while (i + k < n && j + k < n && nums[i + k] == nums[j + k]) {
+                    ++k;
+                }
+                height[rank[i]] = k;
+            }
+        }
+        return height;
+    }
+
     private static class Suffix implements Comparable<Suffix> {
         // 后缀的开始位置
         int index;
@@ -117,7 +148,12 @@ public class Doubling {
 
     public static void main(String[] args) {
         // banana
-        int[] nums = {1,0,13,0,13,0};
+        String s = "banana";
+        char[] chars = s.toCharArray();
+        int[] nums = new int[chars.length];
+        for (int i = 0; i < chars.length; i++) {
+            nums[i] = chars[i] - 'A';
+        }
         int[] sa = new Doubling().sa(nums);
         System.out.println("后缀数组:");
         for (int i = 0; i < sa.length; i++) {
