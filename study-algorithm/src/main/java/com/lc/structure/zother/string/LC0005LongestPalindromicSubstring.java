@@ -1,5 +1,7 @@
 package com.lc.structure.zother.string;
 
+import com.lc.structure.zother.string.as.Manacher;
+
 /**
  * 题目：最长回文子串
  *

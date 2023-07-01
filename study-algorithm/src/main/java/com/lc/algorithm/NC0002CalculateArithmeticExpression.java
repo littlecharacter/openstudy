@@ -1,6 +1,6 @@
 package com.lc.algorithm;
 
-import com.lc.structure.linear.stack.ArrayStack;
+import com.lc.structure.linear.stack.ss.ArrayStack;
 
 /**
  * 计算四则运算表达式 - 栈的运用

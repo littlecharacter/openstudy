@@ -1,5 +1,5 @@
 import com.alibaba.fastjson.JSON;
-import com.lc.structure.graph.Graph;
+import com.lc.structure.graph.ss.Graph;
 import javafx.util.Pair;
 import org.junit.Test;
 

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.*;
 
 /**
- * AC 自动机
+ * AC 自动机：检测字符串中是否包含目标关键词，并返回包含的目标关键词 List，否则返回空 List
  *
  * @author gujixian
  * @since 2022/12/28

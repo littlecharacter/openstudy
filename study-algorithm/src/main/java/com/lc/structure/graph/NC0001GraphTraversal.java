@@ -1,6 +1,6 @@
 package com.lc.structure.graph;
 
-import com.google.common.collect.Lists;
+import com.lc.structure.graph.ss.Graph;
 import javafx.util.Pair;
 
 import java.util.*;
