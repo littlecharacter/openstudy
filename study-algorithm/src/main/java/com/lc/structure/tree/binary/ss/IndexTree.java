@@ -41,6 +41,7 @@ public class IndexTree {
      * index & -index : 提取出index最右侧的1出来
      * index :           0011001000
      * index & -index :  0000001000
+     * 用 index = 19 举个例子，就好明白了
      */
     public int sum(int index) {
         int sum = 0;
@@ -57,6 +58,7 @@ public class IndexTree {
      * index & -index : 提取出index最右侧的1出来
      * index :           0011001000
      * index & -index :  0000001000
+     * 用 index = 3 举个例子，就明白了
      */
     public void add(int index, int v) {
         nums[index] += v;
