@@ -100,8 +100,8 @@ public class NC0010BinaryArithmetic {
 
 
     public static void main(String[] args) {
-        TEST test = new TEST();
-        System.out.println(test.divide(9, 2));
-        System.out.println(test.divide(Integer.MIN_VALUE, 2));
+        NC0010BinaryArithmetic binaryArithmetic = new NC0010BinaryArithmetic();
+        System.out.println(binaryArithmetic.divide(9, 2));
+        System.out.println(binaryArithmetic.divide(Integer.MIN_VALUE, 2));
     }
 }
