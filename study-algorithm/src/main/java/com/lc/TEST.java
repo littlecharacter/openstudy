@@ -1,39 +1,54 @@
 package com.lc;
 
+import com.alibaba.fastjson.JSON;
+
+import java.util.Random;
+
 /**
  * @author gujixian
  * @since 2023/6/13
  */
 public class TEST {
     public static void main(String[] args) {
-        System.out.println(new TEST().numTilings(60));
+        System.out.println(JSON.toJSONString(new TEST().quickSort(new int[]{3, 5, 1, 6, 2, 8, 4, 2, 4, 3})));
     }
 
-    public int numTilings(int n) {
-        if (n < 1) {
-            return 0;
-        }
-        long result = process(3, 0, n);
-        return (int)(result % 1000000007L);
+    public int[] quickSort(int[] nums) {
+        quickSort(nums, 0, nums.length - 1);
+        return nums;
     }
 
-    // status：前一列的状态
-    // index：当前列
-    private long process(int status, int index, int n) {
-        if (index == n) {
-            return status == 3 ? 1L : 0L;
+    private void quickSort(int[] nums, int s, int e) {
+        // base case
+        if (s >= e) {
+            return;
         }
-        if (index > n) {
-            return 0L;
+        // 选轴
+        int pivot = nums[new Random().nextInt(e - s) + s];
+        // 归边
+        int l = s - 1;
+        int r = e + 1;
+        int i = s;
+        while (i < r) {
+            if (nums[i] < pivot) {
+                swap(nums, ++l, i++);
+            } else if (nums[i] > pivot) {
+                swap(nums, i, --r);
+            } else {
+                i++;
+            }
         }
-        long ways = 0L;
-        if (status == 3) {
-            ways += process(3, index + 1, n) + process(3, index + 2, n) + process(2, index + 2, n) + process(1, index + 2, n);
-        } else if (status == 2) {
-            ways += process(3, index + 1, n) + process(1, index + 1, n);
-        } else if (status == 1) {
-            ways += process(3, index + 1, n) + process(2, index + 1, n);
+        quickSort(nums, s, l);
+        quickSort(nums, r, e);
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        // 判断同一位置不交换很重要，数组同一个位置交换会抹成 0 -> 要想同一个位置也交换就用最常用的 -> 引入一个额外变量
+        if (i == j) {
+            return;
         }
-        return ways;
+        nums[i] = nums[i] ^ nums[j];
+        nums[j] = nums[i] ^ nums[j];
+        nums[i] = nums[i] ^ nums[j];
     }
 }
