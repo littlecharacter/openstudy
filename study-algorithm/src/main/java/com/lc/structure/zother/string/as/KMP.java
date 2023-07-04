@@ -34,14 +34,15 @@ public class KMP {
             return -1;
         }
         // 预处理
-        char[] c1 = s1.toCharArray();
-        char[] c2 = s2.toCharArray();
-        int[] next = getNext(c2);
+        char[] sc1 = s1.toCharArray();
+        char[] sc2 = s2.toCharArray();
+        // next 数组，表示 sc2 [0,i] 的子串，最长相等的前缀和后缀的长度
+        int[] next = getNext(sc2);
         int i = 0;
         int j = 0;
         // 匹配
-        while (i < c1.length && j < c2.length) {
-            if (c1[i] == c2[j]) {
+        while (i < sc1.length && j < sc2.length) {
+            if (sc1[i] == sc2[j]) {
                 i++;
                 j++;
             } else if (next[j] == -1) {
@@ -50,24 +51,25 @@ public class KMP {
                 j = next[j];
             }
         }
-        return j == c2.length ? (i - j) : -1;
+        return j == sc2.length ? (i - j) : -1;
     }
 
     /**
      * 正常版：好理解
+     * next 数组，表示 sc2 [0,i] 的子串，最长相等的前缀和后缀的长度
      */
-    private int[] getNext(char[] c) {
-        if (c.length == 1) {
+    private int[] getNext(char[] sc2) {
+        if (sc2.length == 1) {
             return new int[]{-1};
         }
-        int[] next = new int[c.length];
+        int[] next = new int[sc2.length];
         next[0] = -1;
         next[1] = 0;
         int i = 2;
         while (i < next.length) {
             int j = next[i - 1];
             while (j != -1) {
-                if (c[i - 1] == c[j]) {
+                if (sc2[i - 1] == sc2[j]) {
                     next[i++] = ++j;
                     break;
                 } else {
