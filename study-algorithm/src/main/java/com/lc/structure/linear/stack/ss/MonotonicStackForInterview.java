@@ -25,6 +25,8 @@ public class MonotonicStackForInterview<V> {
 
     public Map<Integer, Pair<Integer, Integer>> push (int i, V v) {
         Map<Integer, Pair<Integer, Integer>> featureMap = new HashMap<>();
+        // 有时候需要利用单调栈得到的结构进一步求特征值，为了避免重复，这里改成 >= 即可，即得到一个(...]（左开右闭）的范围
+        // 一但这样 “Pair：值 -> 索引队列” 就没有必要了
         while (!stack.isEmpty() && comparator.compare(stack.peekLast().getKey(), v) > 0) {
             Pair<V, Deque<Integer>> element = stack.pollLast();
             int left = stack.isEmpty() ? -1 : stack.peekLast().getValue().peekLast();
@@ -54,7 +56,7 @@ public class MonotonicStackForInterview<V> {
     }
 
     public static void main(String[] args) {
-        int[] nums = new int[]{2,1,5,6,2,3};
+        int[] nums = new int[]{3,1,2,2,5,3};
         MonotonicStackForInterview<Integer> monotonicStack = new MonotonicStackForInterview<>((o1, o2) -> o1 - o2, nums.length);
         Map<Integer, Pair<Integer, Integer>> featureMap = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
@@ -63,6 +65,12 @@ public class MonotonicStackForInterview<V> {
                 subFeatureMap.forEach(featureMap::put);
             }
         }
-        System.out.println(JSON.toJSONString(featureMap));
+        for (int num : nums) {
+            System.out.print(num + " ");
+        }
+        System.out.println("\n0 1 2 3 4 5\n----------------");
+        featureMap.forEach((index, pair) -> {
+            System.out.println(index + ":[" + pair.getKey() + "," + pair.getValue() + "]");
+        });
     }
 }
