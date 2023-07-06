@@ -23,23 +23,30 @@ public class MonotonicStackForInterview<V> {
         this.capacity = capacity;
     }
 
+    /**
+     * 一个新的 (索引，值) 入栈，产生的特征值
+     * @param i 索引
+     * @param v 值
+     * @return 特征值：index -> (L,R)（左开右开）
+     */
     public Map<Integer, Pair<Integer, Integer>> push (int i, V v) {
         Map<Integer, Pair<Integer, Integer>> featureMap = new HashMap<>();
-        // 有时候需要利用单调栈得到的结构进一步求特征值，为了避免重复，这里改成 >= 即可，即得到一个(...]（左开右闭）的范围
-        // 一但这样 “Pair：值 -> 索引队列” 就没有必要了
-        while (!stack.isEmpty() && comparator.compare(stack.peekLast().getKey(), v) > 0) {
+        // 1.小于栈顶元素，依次弹出所有满足条件的栈顶，并记录
+        while (!stack.isEmpty() && comparator.compare(v, stack.peekLast().getKey()) < 0) {
             Pair<V, Deque<Integer>> element = stack.pollLast();
             int left = stack.isEmpty() ? -1 : stack.peekLast().getValue().peekLast();
             for (Integer index : element.getValue()) {
                 featureMap.put(index, new Pair<>(left, i));
             }
         }
-        if (!stack.isEmpty() && comparator.compare(stack.peekLast().getKey(), v) == 0) {
-            stack.peekLast().getValue().offerLast(i);
+        // 2.大于栈顶元素
+        if (stack.isEmpty() || comparator.compare(v, stack.peekLast().getKey()) > 0)  {
+            Deque<Integer> indexStack = new LinkedList<>();
+            indexStack.offerLast(i);
+            stack.offerLast(new Pair<>(v, indexStack));
         } else {
-            Deque<Integer> indexQueue = new LinkedList<>();
-            indexQueue.offerLast(i);
-            stack.offerLast(new Pair<>(v, indexQueue));
+            // 3.等于栈顶元素
+            stack.peekLast().getValue().offerLast(i);
         }
         size++;
         // 数组遍历完了，对栈中剩余的每个元素求特征值
@@ -56,7 +63,7 @@ public class MonotonicStackForInterview<V> {
     }
 
     public static void main(String[] args) {
-        int[] nums = new int[]{3,1,2,2,5,3};
+        int[] nums = new int[]{3,1,1,2,4};
         MonotonicStackForInterview<Integer> monotonicStack = new MonotonicStackForInterview<>((o1, o2) -> o1 - o2, nums.length);
         Map<Integer, Pair<Integer, Integer>> featureMap = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
@@ -68,7 +75,7 @@ public class MonotonicStackForInterview<V> {
         for (int num : nums) {
             System.out.print(num + " ");
         }
-        System.out.println("\n0 1 2 3 4 5\n----------------");
+        System.out.println("\n0 1 2 3 4\n----------------");
         featureMap.forEach((index, pair) -> {
             System.out.println(index + ":[" + pair.getKey() + "," + pair.getValue() + "]");
         });

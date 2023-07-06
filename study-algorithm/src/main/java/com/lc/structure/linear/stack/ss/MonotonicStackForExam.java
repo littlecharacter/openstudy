@@ -26,16 +26,18 @@ public class MonotonicStackForExam<V> {
      * 一个新的 (索引，值) 入栈，产生的特征值
      * @param i 索引
      * @param v 值
-     * @return 特征值
+     * @return 特征值：index -> (L,R]（左开右闭）
      */
     public Map<Integer, Pair<Integer, Integer>> push (int i, V v) {
         Map<Integer, Pair<Integer, Integer>> featureMap = new HashMap<>();
-        // 有时候需要利用单调栈得到的结构进一步求特征值，为了避免重复，这里改成 >= 即可，即得到一个(...]（左开右闭）的范围
-        while (!stack.isEmpty() && comparator.compare(stack.peekLast().getKey(), v) >= 0) {
+        // 有时候需要利用单调栈得到的结构进一步求解，为了避免重复，这里改成 <= 即可，即得到一个(...]（左开右闭）的范围
+        // 1.小于等于栈顶元素，依次弹出所有满足条件的栈顶，并记录
+        while (!stack.isEmpty() && comparator.compare(v, stack.peekLast().getKey()) <= 0) {
             Pair<V, Integer> element = stack.pollLast();
             int left = stack.isEmpty() ? -1 : stack.peekLast().getValue();
             featureMap.put(element.getValue(), new Pair<>(left, i));
         }
+        // 2.大于栈顶元素
         stack.offerLast(new Pair<>(v, i));
         size++;
         // 数组遍历完了，对栈中剩余的每个元素求特征值
