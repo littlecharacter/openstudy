@@ -23,16 +23,16 @@ public class NC0006ShortUrlGenerator {
      * @return
      */
     public static String decimalTo62(long decimalNum) {
-        String output = "";
+        StringBuilder output = new StringBuilder();
         String baseDigits = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         long quotient = decimalNum;
 
         do {
             long remainder = quotient % 62;
-            output = baseDigits.charAt((int) remainder) + output;
+            output.insert(0, baseDigits.charAt((int) remainder));
             quotient = quotient / 62;
         } while (quotient > 0);
 
-        return output;
+        return output.toString();
     }
 }
