@@ -133,7 +133,6 @@ public class ACAutomaton {
         private boolean endMatched = false;
         private Map<Character, Node> nexts = new HashMap<>();
         private Node fail;
-
     }
 
     public static void main(String[] args) {
