@@ -34,6 +34,8 @@ import java.util.Arrays;
  * 排名数组：rank[i] 表示后缀 i 的排名，是重要的辅助数组，
  * 高度数组：height[i] = lcp(sa[i], sa[i-1])，即第 i 名的后缀与它前一名的后缀的最长公共前缀的长度（LCP），height[0] = 0
  *
+ * 时间复杂度：O(N*logN)
+ *
  * @author gujixian
  * @since 2023/6/29
  */

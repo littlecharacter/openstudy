@@ -2,16 +2,25 @@ package com.lc.structure.linear.array.as;
 
 /**
  * DC3 算法求后缀数组：最主要的就是 sa，rank 和 height 及其对应的方法都可以删除，存在是为了解决相关题目方便
+ * 时间复杂度：O(N)
+ *
  * @author gujixian
  * @since 2023/6/29
  */
 public class SuffixArray_DC3 {
-    /** 后缀数组：sa[i] 表示将所有后缀排序（字典序由小到大）后第 i 小的后缀的编号（原数组下标） */
+    /**
+     * 后缀数组：sa[i] 表示将所有后缀排序（字典序由小到大）后第 i 小的后缀的编号（原数组下标）
+     */
     public int[] sa;
-    /** 表示后缀 i 的排名，是重要的辅助数组 */
+    /**
+     * 表示后缀 i 的排名，是重要的辅助数组
+     */
     public int[] rank;
-    /** height[i] = lcp(sa[i], sa[i-1])，即第 i 名的后缀与它前一名的后缀的最长公共前缀（LCP），height[1] = 0 */
+    /**
+     * height[i] = lcp(sa[i], sa[i-1])，即第 i 名的后缀与它前一名的后缀的最长公共前缀（LCP），height[1] = 0
+     */
     public int[] height;
+
     // 构造方法的约定:
     // 1，数组叫nums，如果你是字符串，请转成整型数组nums
     // 2，数组中，最小值>=1，如果不满足，处理成满足的，也不会影响使用
