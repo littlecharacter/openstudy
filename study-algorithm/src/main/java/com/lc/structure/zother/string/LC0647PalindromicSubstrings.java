@@ -12,12 +12,13 @@ import com.lc.structure.zother.string.as.Manacher;
  * 具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被视作不同的子串。
  *
  * 分析：
- * 一、暴力解
+ * 一、暴力解：O(N*N)
  * 1、长度为n的字符串有2*n-1个回环中心（字符+字符间隙）
  * 2、将回环中心依次编号遍历，设立left和right两个指针
  * 3、从回环中心开始，依次向外扩张（left -= 1 && right += 1）
  * 4、若s[left]==s[right]且left和right在0到n的范围内，则回环个数加一，并继续向外扩张，直到不满足条件
- * 二、Manacher 算法
+ *
+ * 二、Manacher 算法：O(N)
  *
  * 链接：https://leetcode.cn/problems/palindromic-substrings/
  */
