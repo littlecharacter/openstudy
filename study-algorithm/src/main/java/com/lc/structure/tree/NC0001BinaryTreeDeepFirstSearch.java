@@ -13,10 +13,10 @@ public class NC0001BinaryTreeDeepFirstSearch {
         root.left.right = new TreeNode(5);
         root.right.left = new TreeNode(6);
         root.right.right = new TreeNode(7);
-        new NC0001BinaryTreeDeepFirstSearch().deepOrder(root);
+        new NC0001BinaryTreeDeepFirstSearch().dfs(root);
     }
 
-    public void deepOrder(TreeNode root) {
+    public void dfs(TreeNode root) {
         if (root == null) {
             return;
         }
