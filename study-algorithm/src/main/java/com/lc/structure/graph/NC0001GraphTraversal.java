@@ -34,6 +34,8 @@ public class NC0001GraphTraversal {
 
         System.out.println("深度优先遍历V2(基于递归和栈的深度优先遍历虽然结果不一致，但都是深度优先遍历)");
         graphTraversal.dfsV2(graph);
+        System.out.println("深度优先遍历V3(基于递归和栈的深度优先遍历虽然结果不一致，但都是深度优先遍历)");
+        graphTraversal.dfsV3(graph);
     }
 
     // 递归版
@@ -52,7 +54,7 @@ public class NC0001GraphTraversal {
         }
     }
 
-    // 迭代版
+    // 迭代版：弹出时打印
     private void dfsV2(Graph graph) {
         Set<Integer> visitedNode = new HashSet<>();
         Deque<Integer> stack = new LinkedList<>();
@@ -71,6 +73,32 @@ public class NC0001GraphTraversal {
                 }
                 visitedNode.add(edge.getKey());
                 stack.offerLast(edge.getKey());
+            }
+        }
+    }
+
+    // 迭代版：压入时打印
+    private void dfsV3(Graph graph) {
+        Set<Integer> visitedNode = new HashSet<>();
+        Deque<Integer> stack = new LinkedList<>();
+        stack.offerLast(0);
+        visitedNode.add(0);
+        System.out.println(0);
+        while (!stack.isEmpty()) {
+            int node = stack.pollLast();
+            Set<Pair<Integer, Integer>> edges = graph.graph.get(node);
+            if (edges == null || edges.isEmpty()) {
+                continue;
+            }
+            for (Pair<Integer, Integer> edge : graph.graph.get(node)) {
+                if (visitedNode.contains(edge.getKey())) {
+                    continue;
+                }
+                stack.offerLast(node);
+                stack.offerLast(edge.getKey());
+                visitedNode.add(edge.getKey());
+                System.out.println(edge.getKey());
+                break;
             }
         }
     }
