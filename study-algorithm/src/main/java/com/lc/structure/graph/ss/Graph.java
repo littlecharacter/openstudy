@@ -1,7 +1,6 @@
 package com.lc.structure.graph.ss;
 
 import com.alibaba.fastjson.JSON;
-import javafx.util.Pair;
 import lombok.*;
 
 import java.util.*;
@@ -19,8 +18,10 @@ public class Graph {
     // 邻接表法一（工程）：点（编号 -> 点结构）、边分开表示
     public Map<Integer, Node> nodeMap = new HashMap<>();
     public Set<Edge> edgeSet = new HashSet<>();
-    // 邻接表法二（面试）：原节点编号（整型或字符串，根据题目来） -> 目标节点，权值
+    // 邻接表法二（面试）：原节点编号（整型或字符串，根据题目来） -> {目标节点，权值}
     // public Map<Integer, Set<Pair<Integer, Integer>>> graph = new HashMap<>();
+    // 节点的入度和出度：节点 -> {入度，出度}
+    // Map<Integer, Pair<Integer, Integer>> ioMap = new HashMap<>();
 
     public static Graph buildGraph(Integer[][] matrix) {
         Graph graph = new Graph();
@@ -48,6 +49,10 @@ public class Graph {
             // Set<Pair<Integer, Integer>> edges = graph.graph.getOrDefault(from, new HashSet<>());
             // edges.add(new Pair<>(to, weight));
             // graph.graph.put(from, edges);
+            // Pair<Integer, Integer> fromIO = graph.ioMap.getOrDefault(from, new Pair<>(0, 0));
+            // Pair<Integer, Integer> toIO = graph.ioMap.getOrDefault(to, new Pair<>(0, 0));
+            // graph.ioMap.put(from, new Pair<>(fromIO.getKey(), fromIO.getValue() + 1));
+            // graph.ioMap.put(to, new Pair<>(fromIO.getKey() + 1, fromIO.getValue()));
         }
 
         return graph;
