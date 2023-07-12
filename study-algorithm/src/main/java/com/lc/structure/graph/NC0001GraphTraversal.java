@@ -36,6 +36,7 @@ public class NC0001GraphTraversal {
         graphTraversal.dfsV2(graph);
     }
 
+    // 递归版
     private void dfsV1(Graph graph, Set<Integer> visitedNode, int node) {
         System.out.println(node);
         Set<Pair<Integer, Integer>> edges = graph.graph.get(node);
@@ -51,6 +52,7 @@ public class NC0001GraphTraversal {
         }
     }
 
+    // 迭代版
     private void dfsV2(Graph graph) {
         Set<Integer> visitedNode = new HashSet<>();
         Deque<Integer> stack = new LinkedList<>();
