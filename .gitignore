@@ -53,3 +53,7 @@ Thumbs.db
 
 # virtual machine crash logs ignore, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# 指定忽略
+/study-algorithm/src/main/java/com/lc/TEST.java
+/study-javase/src/main/java/com/lc/javase/TEST.java
