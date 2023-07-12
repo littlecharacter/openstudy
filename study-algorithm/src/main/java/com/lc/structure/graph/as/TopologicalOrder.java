@@ -25,7 +25,6 @@ public class TopologicalOrder {
             inMap.put(to, Optional.ofNullable(inMap.get(to)).orElse(0) + 1);
         }
         // 构建拓扑序
-        // 入度为 0 的队列
         Queue<Integer> zeroInQueue = new LinkedList<>();
         inMap.forEach((node, in) -> {
             if (Objects.equals(in, 0)) {
