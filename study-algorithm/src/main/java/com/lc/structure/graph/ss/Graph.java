@@ -19,7 +19,7 @@ public class Graph {
     public Map<Integer, Node> nodeMap = new HashMap<>();
     public Set<Edge> edgeSet = new HashSet<>();
     // 邻接表法二（面试）：原节点编号（整型或字符串，根据题目来） -> 目标节点，权值
-    public Map<Integer, Set<Pair<Integer, Integer>>> graph = new HashMap<>();
+    // public Map<Integer, Set<Pair<Integer, Integer>>> graph = new HashMap<>();
 
     public static Graph buildGraph(Integer[][] matrix) {
         Graph graph = new Graph();
@@ -43,10 +43,10 @@ public class Graph {
             graph.edgeSet.add(edge);
 
 
-            // 构造面试图
-            Set<Pair<Integer, Integer>> edges = graph.graph.getOrDefault(from, new HashSet<>());
-            edges.add(new Pair<>(to, weight));
-            graph.graph.put(from, edges);
+            // // 构造面试图
+            // Set<Pair<Integer, Integer>> edges = graph.graph.getOrDefault(from, new HashSet<>());
+            // edges.add(new Pair<>(to, weight));
+            // graph.graph.put(from, edges);
         }
 
         return graph;
@@ -65,10 +65,12 @@ public class Graph {
         public String desc;
         // 节点的值
         public int value;
+
         // 节点入度
         public int in;
         // 节点出度
         public int out;
+
         // next 节点集合
         public List<Node> nexts = new ArrayList<>();
         // edge 边集合
