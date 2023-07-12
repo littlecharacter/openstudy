@@ -1,6 +1,5 @@
 package com.lc.structure.graph;
 
-import com.lc.structure.graph.ss.Graph;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -94,5 +93,10 @@ public class NC0001GraphTraversal {
                 queue.offer(edge.getKey());
             }
         }
+    }
+
+    private static class Graph {
+        // 邻接表法：原节点编号（整型或字符串，根据题目来） -> 目标节点，权值
+        public Map<Integer, Set<Pair<Integer, Integer>>> graph = new HashMap<>();
     }
 }
