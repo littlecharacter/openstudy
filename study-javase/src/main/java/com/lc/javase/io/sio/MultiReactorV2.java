@@ -126,13 +126,14 @@ public class MultiReactorV2 {
             int read;
             try {
                 while (true) {
+                    String clientName = getClientName(client.socket());
                     read = client.read(buffer);
                     if (read > 0) {
                         buffer.flip();
                         byte[] contentByte = new byte[buffer.limit()];
                         buffer.get(contentByte);
                         String content = new String(contentByte);
-                        System.out.println(name + "：client（" + getClientName(client.socket()) + "）：" + content);
+                        System.out.println(name + "：client（" + clientName + "）：" + content);
                         buffer.flip();
                         while (buffer.hasRemaining()) {
                             client.write(buffer);
@@ -142,7 +143,7 @@ public class MultiReactorV2 {
                         break;
                     } else {
                         client.close();
-                        System.out.println(name + "：client（" + getClientName(client.socket()) + "）：断开连接！");
+                        System.out.println(name + "：client（" + clientName + "）：断开连接！");
                         break;
                     }
                 }
