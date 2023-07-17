@@ -142,6 +142,7 @@ public class MultiReactorV2 {
                         break;
                     } else {
                         client.close();
+                        System.out.println(name + "：client（" + getClientName(client.socket()) + "）：断开连接！");
                         break;
                     }
                 }
