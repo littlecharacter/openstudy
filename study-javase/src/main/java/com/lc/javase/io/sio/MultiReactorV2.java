@@ -66,6 +66,8 @@ public class MultiReactorV2 {
             System.out.println(name + "：启动成功！");
             while (true) {
                 try {
+                    // 问题：这里通常是要阻塞的
+                    // 注意，这里阻塞，会导致 xx.register(selector, SelectionKey.XX) 也会阻塞 -> 得使用 selector.wakeup() 唤醒
                     while (selector.select() > 0) {
                         // Set<SelectionKey> allKeys = selector.keys();
                         // System.out.println(name + "：监听/负责 channel 的数量为" + allKeys.size());
