@@ -24,6 +24,7 @@ public class Server {
             void initChannel(SocketChannel sc) {
                 ChannelPipeline cp = sc.pipeline();
                 cp.addLast(new ReceiveHandler());
+                System.out.println("ReceiveHandler：registed！");
             }
         }));
 
@@ -74,6 +75,7 @@ public class Server {
             // 过河拆桥、卸磨杀驴
             ChannelPipeline pipeline = client.pipeline();
             pipeline.remove(this);
+            System.out.println("ChannelInitializer：removed！");
         }
     }
 
