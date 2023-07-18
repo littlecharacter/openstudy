@@ -52,9 +52,9 @@ public class Server {
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
             SocketChannel client = (SocketChannel) msg;
-            group.register(client);
             ChannelPipeline pipeline = client.pipeline();
             pipeline.addLast(channelInitializer);
+            group.register(client);
         }
     }
 
