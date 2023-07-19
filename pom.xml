@@ -23,6 +23,7 @@
         <module>study-netty</module>
         <module>study-pattern</module>
         <module>study-dubbo</module>
+        <module>study-guava</module>
     </modules>
 
     <dependencyManagement>
