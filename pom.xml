@@ -107,6 +107,19 @@
                 <version>5.3.26</version>
             </dependency>
 
+            <!-- jedis -->
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>3.7.1</version>
+            </dependency>
+            <!-- redisson -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>3.20.0</version>
+            </dependency>
+
             <!-- thirdPartyProject-spring-boot -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
