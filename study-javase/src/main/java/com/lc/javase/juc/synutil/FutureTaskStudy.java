@@ -1,6 +1,6 @@
 package com.lc.javase.juc.synutil;
 
-import com.lc.javase.juc.ThreadPoolExecutorUtil;
+import com.lc.javase.juc.pool.ThreadPoolUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ public class FutureTaskStudy {
     public void work() {
 		ExpensiveOperation eo = new ExpensiveOperation();
         Memorizer4<String, Integer> m = new Memorizer4<>(eo);
-		ExecutorService es = ThreadPoolExecutorUtil.getThreadPool();
+		ExecutorService es = ThreadPoolUtil.getXxThreadPool();
 		for (int i = 0; i < 10; i++) {
 			es.execute(new FutureTaskThread(m, Integer.toString(1)));
 		}

@@ -1,4 +1,4 @@
-package com.lc.javase.other.util;
+package com.lc.javase.juc.pool;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -26,7 +26,7 @@ public class ThreadPoolUtil {
                 executorService = new ThreadPoolExecutor(THREAD_POOL_NUM_5, THREAD_POOL_NUM_5,
                         0L, TimeUnit.MILLISECONDS,
                         new LinkedBlockingDeque<>(CAPACITY),
-                        new CustomThreadFactory("handle_deposit_client"),
+                        new TThreadFactory("handle_deposit_client"),
                         (r,executor)->{
                             discardPolicyNum.add(1);
                             System.out.println("AdjustAccountDepositTask 队列足够大,任务被丢弃,丢弃总任务数:" + discardPolicyNum);
