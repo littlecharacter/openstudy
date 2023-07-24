@@ -1,4 +1,4 @@
-package com.lc.javase.juc.synutil;
+package com.lc.javase.juc.future;
 
 import com.lc.javase.juc.pool.ThreadPoolUtil;
 
@@ -6,37 +6,72 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.*;
 
-
-
 /**
  * FutureTask可用于异步获取执行结果或取消执行任务的场景。
+ *
  * @author LittleRW
  */
 public class FutureTaskStudy {
+    public static void main(String[] args) throws InterruptedException {
+        simpleTest();
+        System.out.println("-----------------------simpleTest(↑)complexTest(↓)-----------------------");
+        complexTest();
+    }
+
+
+    private static void simpleTest() {
+        Callable<Integer> callableTask = new Callable<Integer>() {
+            @Override
+            public Integer call() throws Exception {
+                // Simulate a time-consuming task
+                Thread.sleep(2000);
+                return 42;
+            }
+        };
+        FutureTask<Integer> futureTask = new FutureTask<>(callableTask);
+        Thread thread = new Thread(futureTask);
+        thread.start();
+        try {
+            Integer result = futureTask.get();
+            System.out.println("Task result: " + result);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void complexTest() throws InterruptedException {
+        ExpensiveOperation operation = new ExpensiveOperation();
+        Memorizer4<String, Integer> memorizer = new Memorizer4<>(operation);
+        ExecutorService es = ThreadPoolUtil.getXxThreadPool();
+        for (int i = 0; i < 10; i++) {
+            es.execute(new FutureTaskThread(memorizer, Integer.toString(1)));
+        }
+        TimeUnit.MILLISECONDS.sleep(10000L);
+        es.shutdown();
+    }
+
+
     public void work() {
-		ExpensiveOperation eo = new ExpensiveOperation();
-        Memorizer4<String, Integer> m = new Memorizer4<>(eo);
-		ExecutorService es = ThreadPoolUtil.getXxThreadPool();
-		for (int i = 0; i < 10; i++) {
-			es.execute(new FutureTaskThread(m, Integer.toString(1)));
-		}
-	}
+
+    }
 
     /**
      * 计算接口-模拟数据库操作
-     * @author LittleRW
+     *
      * @param <K>
      * @param <V>
+     * @author LittleRW
      */
-    private interface Computable<K, V>{
+    private interface Computable<K, V> {
         V compute(K k);
     }
 
     /**
-     * 模拟数据库操作
+     * 耗时的操作：模拟数据库操作
+     *
      * @author LittleRW
      */
-    private class ExpensiveOperation implements Computable<String, Integer>{
+    private static class ExpensiveOperation implements Computable<String, Integer> {
         @Override
         public Integer compute(String s) {
             try {
@@ -49,7 +84,7 @@ public class FutureTaskStudy {
         }
     }
 
-    private class FutureTaskThread implements Runnable {
+    private static class FutureTaskThread implements Runnable {
         private Computable<String, Integer> c;
         private String s;
 
@@ -64,7 +99,7 @@ public class FutureTaskStudy {
         }
     }
 
-    private class Memorizer1<K, V> implements Computable<K, V>{
+    private static class Memorizer1<K, V> implements Computable<K, V> {
         private final Map<K, V> cache = new HashMap<K, V>();
         private final Computable<K, V> c;
 
@@ -89,7 +124,7 @@ public class FutureTaskStudy {
         }
     }
 
-    private class Memorizer2<K, V> implements Computable<K, V>{
+    private static class Memorizer2<K, V> implements Computable<K, V> {
         private final Map<K, V> cache = new ConcurrentHashMap<K, V>();
         private final Computable<K, V> c;
 
@@ -114,7 +149,7 @@ public class FutureTaskStudy {
         }
     }
 
-    private class Memorizer3<K, V> implements Computable<K, V>{
+    private static class Memorizer3<K, V> implements Computable<K, V> {
         private final Map<K, FutureTask<V>> cache = new ConcurrentHashMap<K, FutureTask<V>>();
         private final Computable<K, V> c;
 
@@ -139,7 +174,7 @@ public class FutureTaskStudy {
                     result = newResult;
                     result.run();
                 }
-            }else {
+            } else {
                 System.out.println("从缓存中获取！");
             }
 
@@ -154,7 +189,7 @@ public class FutureTaskStudy {
         }
     }
 
-    private class Memorizer4<K, V> implements Computable<K, V>{
+    private static class Memorizer4<K, V> implements Computable<K, V> {
         private final ConcurrentHashMap<K, FutureTask<V>> cache = new ConcurrentHashMap<K, FutureTask<V>>();
         private final Computable<K, V> c;
 
@@ -188,7 +223,7 @@ public class FutureTaskStudy {
                     result = newResult;
                     result.run();
                 }
-            }else {
+            } else {
                 System.out.println("从缓存中获取！");
             }
 
