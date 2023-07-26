@@ -50,11 +50,6 @@ public class FutureTaskStudy {
         es.shutdown();
     }
 
-
-    public void work() {
-
-    }
-
     /**
      * 计算接口-模拟数据库操作
      *

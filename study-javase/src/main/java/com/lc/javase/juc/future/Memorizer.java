@@ -1,9 +1,9 @@
-package com.lc.javase.juc.mem;
+package com.lc.javase.juc.future;
 
 import java.util.Map;
 import java.util.concurrent.*;
 
-public class MemorizerTwo {
+public class Memorizer {
     private final Map<String, Future<Result>> cache = new ConcurrentHashMap<>();
 
     public Result get(String key) {
