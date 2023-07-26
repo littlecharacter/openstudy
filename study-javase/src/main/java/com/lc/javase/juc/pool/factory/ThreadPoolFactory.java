@@ -1,4 +1,4 @@
-package com.lc.javase.juc.factory;
+package com.lc.javase.juc.pool.factory;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.LongAdder;
@@ -25,7 +25,7 @@ public class ThreadPoolFactory {
                         0L,
                         TimeUnit.MILLISECONDS,
                         new LinkedBlockingDeque<>(CAPACITY),
-                        new CustomThreadFactory("有意义的线程名称"),
+                        new TThreadFactory("有意义的线程名称"),
                         (r,executor)->{
                             discardTaskNum.add(1);
                             System.out.println("XxThreadPool队列足够大,任务被丢弃,丢弃总任务数:" + discardTaskNum);
@@ -47,7 +47,7 @@ public class ThreadPoolFactory {
                         0L,
                         TimeUnit.MILLISECONDS,
                         new LinkedBlockingDeque<>(CAPACITY),
-                        new CustomThreadFactory("有意义的线程名称"),
+                        new TThreadFactory("有意义的线程名称"),
                         (r,executor)->{
                             discardTaskNum.add(1);
                             System.out.println("YyThreadPool队列足够大,任务被丢弃,丢弃总任务数:" + discardTaskNum);

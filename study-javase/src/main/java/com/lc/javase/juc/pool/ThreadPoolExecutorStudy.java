@@ -1,5 +1,7 @@
 package com.lc.javase.juc.pool;
 
+import com.lc.javase.juc.pool.factory.ThreadPoolFactory;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -18,8 +20,8 @@ public class ThreadPoolExecutorStudy {
 	public static void main(String[] args) {
 		for (int i = 1; i <= 100; i++) {
 			try {
-				ThreadPoolUtil.getXxThreadPool().execute(new ThreadPoolTask(new String("任务" + i)));
-				ThreadPoolUtil.getXxThreadPool().submit(new ThreadPoolTask(new String("任务" + i)));
+				ThreadPoolFactory.getXxThreadPool().execute(new ThreadPoolTask(new String("任务" + i)));
+				ThreadPoolFactory.getXxThreadPool().submit(new ThreadPoolTask(new String("任务" + i)));
 				System.out.println("第" + i + "个线程加入线程池！");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -29,7 +31,7 @@ public class ThreadPoolExecutorStudy {
 		while (true) {
 			try {
 				TimeUnit.MILLISECONDS.sleep(1000);
-				System.out.println(ThreadPoolUtil.getXxThreadPool());
+				System.out.println(ThreadPoolFactory.getXxThreadPool());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

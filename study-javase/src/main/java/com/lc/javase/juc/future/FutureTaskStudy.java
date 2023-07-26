@@ -1,6 +1,6 @@
 package com.lc.javase.juc.future;
 
-import com.lc.javase.juc.pool.ThreadPoolUtil;
+import com.lc.javase.juc.pool.factory.ThreadPoolFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +42,7 @@ public class FutureTaskStudy {
     private static void complexTest() throws InterruptedException {
         ExpensiveOperation operation = new ExpensiveOperation();
         Memorizer4<String, Integer> memorizer = new Memorizer4<>(operation);
-        ExecutorService es = ThreadPoolUtil.getXxThreadPool();
+        ExecutorService es = ThreadPoolFactory.getXxThreadPool();
         for (int i = 0; i < 10; i++) {
             es.execute(new FutureTaskThread(memorizer, Integer.toString(1)));
         }

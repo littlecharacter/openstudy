@@ -1,4 +1,4 @@
-package com.lc.javase.juc.pool;
+package com.lc.javase.juc.pool.factory;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
