@@ -1,6 +1,6 @@
 package com.lc.javase.juc.future;
 
-import com.lc.javase.juc.pool.factory.ThreadPoolFactory;
+import com.lc.javase.juc.thread.pool.factory.ThreadPoolFactory;
 
 import java.util.HashMap;
 import java.util.Map;

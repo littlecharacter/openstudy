@@ -1,6 +1,6 @@
 package com.lc.javase.juc.factory;
 
-import com.lc.javase.juc.pool.factory.ThreadPoolFactory;
+import com.lc.javase.juc.thread.pool.factory.ThreadPoolFactory;
 import org.junit.Test;
 
 import java.util.concurrent.ExecutorService;
