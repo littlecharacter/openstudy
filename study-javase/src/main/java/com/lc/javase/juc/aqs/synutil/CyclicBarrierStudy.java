@@ -8,17 +8,17 @@ public class CyclicBarrierStudy {
 
 	private ExecutorService threadPool = Executors.newFixedThreadPool(THREAD_NUM);
 
-	private int barrier = 0;
+	private int count = 0;
 
 	public void work() {
 
         CyclicBarrier cb = new CyclicBarrier(THREAD_NUM, () -> {
             try {
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.SECONDS.sleep(3);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("第" + (barrier++) + "轮任务完成！");
+            System.out.println("第" + (count++) + "轮任务完成！");
         });
 
         for (int j = 0; j < THREAD_NUM; j++) {
@@ -45,6 +45,7 @@ public class CyclicBarrierStudy {
                 try {
                     System.out.println(name + " is working...");
                     TimeUnit.MILLISECONDS.sleep(new Random().nextInt(3) * 1000 + 1000);
+                    System.out.println(name + " is work done!");
                     // 此线程工作完成，在这里等待，直到所有线程都到达barrier。
                     barrier.await();
                 } catch (Exception e) {
@@ -52,5 +53,9 @@ public class CyclicBarrierStudy {
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        new CyclicBarrierStudy().work();
     }
 }

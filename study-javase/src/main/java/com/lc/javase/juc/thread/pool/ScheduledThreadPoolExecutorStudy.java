@@ -1,13 +1,14 @@
 package com.lc.javase.juc.thread.pool;
 
 import java.util.Date;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class ScheduledThreadPoolExecutorStudy {//见名知意
 
     public static void main(String[] args) {
-        ScheduledThreadPoolExecutor se = new ScheduledThreadPoolExecutor(1);
+        ScheduledThreadPoolExecutor se = new ScheduledThreadPoolExecutor(4);
         se.scheduleAtFixedRate(() -> {
             System.out.println(new Date());
             System.out.println("task-1:run...");
@@ -29,5 +30,8 @@ public class ScheduledThreadPoolExecutorStudy {//见名知意
             System.out.println("task-4:run...");
             throw new RuntimeException();
         }, 2000, TimeUnit.MILLISECONDS);
+
+        // se.shutdown();
+        // se.shutdownNow();
     }
 }

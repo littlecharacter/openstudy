@@ -21,6 +21,8 @@ public class CollectionStudy {
 
         ConcurrentLinkedQueue concurrentLinkedQueue = new ConcurrentLinkedQueue();
         PriorityBlockingQueue priorityBlockingQueue = new PriorityBlockingQueue();
+
+        ConcurrentLinkedDeque deque = new ConcurrentLinkedDeque();
     }
 
     public void studyArrayList() {
