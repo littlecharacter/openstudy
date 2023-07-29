@@ -64,6 +64,10 @@ public class ForkJoinPattern {
         Fibonacci fibonacci = new Fibonacci(n);
         // 分治计算任务
         Integer result = forkJoinPool.invoke(fibonacci);
+        // 需要判断计算结果的正确性
+        if (fibonacci.isCompletedAbnormally()) {
+            throw new RuntimeException("计算出错");
+        }
         // System.out.println("Fibonacci(" + n + ")的结果为：" + result);
         return result;
     }
