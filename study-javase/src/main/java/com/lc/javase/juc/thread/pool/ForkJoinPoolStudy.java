@@ -1,4 +1,4 @@
-package com.lc.javase.juc.pattern;
+package com.lc.javase.juc.thread.pool;
 
 import java.util.Random;
 import java.util.concurrent.*;
@@ -7,7 +7,7 @@ import java.util.concurrent.*;
  * @author gujixian
  * @since 2023/7/28
  */
-public class ForkJoinPattern {
+public class ForkJoinPoolStudy {
     private static final Random RANDOM = new Random();
     public static void main(String[] args) throws Exception {
         int N = 15;
