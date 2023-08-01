@@ -4,6 +4,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 哲学家吃饭 - 死锁
+ */
 public class PhilosopherDemo {
 	private static final int SIZE = 5;
 	public static void main(String[] args) {
@@ -21,57 +24,56 @@ public class PhilosopherDemo {
  		}
 		es.shutdown();
 	}
-}
 
-class Chopstick{
-	private boolean taken = false;
-	
-	public synchronized void take() {
-		while (taken) {
+	private static class Philosopher implements Runnable{
+		private Chopstick left;
+		private Chopstick right;
+
+		public Philosopher(Chopstick left, Chopstick right) {
+			this.left = left;
+			this.right = right;
+		}
+
+		private void eat() {
 			try {
-				wait();
+				System.out.println(Thread.currentThread() + ":" + "eating...");
+				TimeUnit.MILLISECONDS.sleep(3000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		taken = true;
-	}
-	
-	public synchronized void drop() {
-		taken = false;
-		notifyAll();
-	}
-}
 
-class Philosopher implements Runnable{
-	private Chopstick left;
-	private Chopstick right;
-	
-	public Philosopher(Chopstick left, Chopstick right) {
-		super();
-		this.left = left;
-		this.right = right;
-	}
-
-	private void eat() {
-		try {
-			System.out.println(Thread.currentThread() + ":" + "eating...");		
-			TimeUnit.MILLISECONDS.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		@Override
+		public void run() {
+			while (true) {
+				left.take();
+				System.err.println(Thread.currentThread() + ":" + "taking left chopstick...");
+				right.take();
+				System.err.println(Thread.currentThread() + ":" + "taking right chopstick...");
+				eat();
+				left.drop();
+				right.drop();
+			}
 		}
 	}
-	
-	@Override
-	public void run() {
-		while (true) {
-			System.err.println(Thread.currentThread() + ":" + "taking left chopstick...");
-			left.take();
-			System.err.println(Thread.currentThread() + ":" + "taking right chopstick...");
-			right.take();
-			eat();
-			left.drop();
-			right.drop();
+
+	private static class Chopstick{
+		private boolean taken = false;
+
+		public synchronized void take() {
+			while (taken) {
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			taken = true;
+		}
+
+		public synchronized void drop() {
+			taken = false;
+			notifyAll();
 		}
 	}
 }

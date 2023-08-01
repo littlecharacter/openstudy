@@ -10,22 +10,29 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class ReentrantLockStudy {
     public static void main(String[] args) {
         ReentrantLock lock = new ReentrantLock(false);
-        Condition condition1 = lock.newCondition();
+        // 1.1 lock()
         lock.lock();
-        lock.tryLock();
         try {
+            // 1.2 lockInterruptibly()
             lock.lockInterruptibly();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         try {
+            // 1.3 tryLock(time)
             lock.tryLock(1000, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        // 2 condition1
+        Condition condition1 = lock.newCondition();
+        Condition condition2 = lock.newCondition();
+        lock.lock();
         try {
             try {
                 condition1.await();
+                condition2.await();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -34,14 +41,9 @@ public class ReentrantLockStudy {
             lock.unlock();
         }
         condition1.signal();
-        Condition condition2 = lock.newCondition();
-        try {
-            condition2.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         condition2.signal();
 
+        // 3 ReentrantReadWriteLock
         ReadWriteLock rwLock = new ReentrantReadWriteLock(false);
         Lock readLock = rwLock.readLock();
         Lock writeLock = rwLock.writeLock();

@@ -1,4 +1,4 @@
-package com.lc.javase.base;
+package com.lc.javase.juc.thread;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,4 +1,4 @@
-package com.lc.javase.base;
+package com.lc.javase.juc.atomic;
 
 import java.util.concurrent.atomic.LongAdder;
 

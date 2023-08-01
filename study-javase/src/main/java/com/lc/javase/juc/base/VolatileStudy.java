@@ -1,4 +1,4 @@
-package com.lc.javase.base;
+package com.lc.javase.juc.base;
 
 public class VolatileStudy {
     int a = 0;
