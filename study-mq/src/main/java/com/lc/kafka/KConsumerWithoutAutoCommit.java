@@ -71,6 +71,8 @@ public class KConsumerWithoutAutoCommit {
                 }
                 Map<TopicPartition, OffsetAndMetadata> map = new HashMap<>();
                 map.put(partition, new OffsetAndMetadata(offset));
+                // 注意，不管同步提交还是异步提交，只要不是和业务在一个事务里，都可能消费了，但没提交（业务处理完后，在未提交之前宕机）
+                // 所以，优先选择异步提交！！！-> 做幂等
                 consumer.commitSync(map);
                 // consumer.commitAsync(map, new OffsetCommitCallback() {
                 //     @Override
