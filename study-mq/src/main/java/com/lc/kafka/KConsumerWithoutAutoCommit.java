@@ -14,6 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 多线程版2：效率更高一些
+ * 隐含bug：有时候生产端停了，但是消费端一直不能将消息消费完！！！
  *
  * @author gujixian
  * @since 2023/8/3
@@ -73,7 +74,8 @@ public class KConsumerWithoutAutoCommit {
                 map.put(partition, new OffsetAndMetadata(offset));
                 // 注意，不管同步提交还是异步提交，只要不是和业务在一个事务里，都可能消费了，但没提交（业务处理完后，在未提交之前宕机）
                 // 所以，优先选择异步提交！！！-> 做幂等
-                consumer.commitSync(map);
+                // consumer.commitSync(map);
+                consumer.commitAsync(map, null);
                 // consumer.commitAsync(map, new OffsetCommitCallback() {
                 //     @Override
                 //     public void onComplete(Map<TopicPartition, OffsetAndMetadata> offsets, Exception exception) {
