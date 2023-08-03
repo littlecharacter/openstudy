@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 多线程版1：效率略低一些
+ * 隐含bug：有时候生产端停了，但是消费端一直不能将消息消费完！！！
  *
  * @author gujixian
  * @since 2023/8/3
