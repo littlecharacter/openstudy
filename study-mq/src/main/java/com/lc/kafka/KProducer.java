@@ -29,7 +29,7 @@ public class KProducer {
                     System.out.println("key:" + record.key() + ", value:" + record.value() + ", partition:" + partition + "，offset:" + offset);
                 }
             }
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.MILLISECONDS.sleep(200);
         }
     }
 }

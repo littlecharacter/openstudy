@@ -10,16 +10,61 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
+import java.util.concurrent.*;
 
 /**
+ * 生产中，这里可以抽出一个 ClientFactory：每个 topic 一个 Producer 和 Consumer，Map
+ *
  * @author gujixian
  * @since 2023/8/3
  */
 public final class ClientUtil {
-    private static Properties pp = new Properties();
-    private static Properties cp = new Properties();
+    private static final ExecutorService[] threadPools = new ExecutorService[Runtime.getRuntime().availableProcessors() + 1];
+    // private static final BlockingQueue<Runnable>[] qs = new BlockingQueue[]{
+    //         new LinkedBlockingQueue<>(),
+    //         new LinkedBlockingQueue<>(),
+    //         new LinkedBlockingQueue<>(),
+    //         new LinkedBlockingQueue<>()
+    // };
+
+    private static final Properties pp = new Properties();
+    private static final Properties cp = new Properties();
 
     static {
+        // 初始化线程池 - 注意生产中一定要用自定义线程池（工作线程为 1 的线程池）
+        for (int i = 0; i < threadPools.length; i++) {
+            int finalI = i;
+            threadPools[i] = new ThreadPoolExecutor(
+                    1,
+                    1,
+                    0L, TimeUnit.MILLISECONDS,
+                    new SynchronousQueue<>(),
+                    new ThreadFactory() {
+                        @Override
+                        public Thread newThread(Runnable r) {
+                            Thread t = new Thread(r);
+                            t.setName("消息消费线程-" + finalI);
+                            return t;
+                        }
+                    },
+                    new ThreadPoolExecutor.CallerRunsPolicy()
+            );
+        }
+
+        // new Thread(() -> {
+        //     while (true) {
+        //         for (int i = 0; i < qs.length; i++) {
+        //             BlockingQueue<Runnable> q = qs[i];
+        //             System.out.println("--------------------------------------------------------------------------------------------队列-" + i + "长度：" + q.size());
+        //             try {
+        //                 TimeUnit.SECONDS.sleep(1);
+        //             } catch (InterruptedException e) {
+        //                 throw new RuntimeException(e);
+        //             }
+        //         }
+        //     }
+        // }).start();
+
         // 生产端配置
         pp.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kfk:19092,kfk:29092,kfk:39092");
         // 序列化方式
@@ -39,7 +84,7 @@ public final class ClientUtil {
         // latest: automatically reset the offset to the latest offset，最后，默认
         // none: throw exception to the consumer if no previous offset is found for the consumer's group
         // anything else: throw exception to the consumer
-        cp.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+        // cp.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
         // 拉取行为：一次拉取多少条消息
         // cp.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "");
         // 拉取行为：拉取消息的时间间隔
@@ -51,17 +96,25 @@ public final class ClientUtil {
 
     }
 
-    private ClientUtil() {}
+    private ClientUtil() {
+    }
 
     public static ClientUtil instance() {
         return ClientUtilInner.instance;
     }
 
-    public <K,V> Producer<K,V> getProducer() {
+    public ExecutorService getThreadPool(int partition) {
+        int index = partition % threadPools.length;
+        return threadPools[index];
+    }
+
+    public <K, V> Producer<K, V> getProducer() {
         return new KafkaProducer<>(pp);
     }
 
-    public <K,V> Consumer<K,V> getConsumer() {
+    public <K, V> Consumer<K, V> getConsumer(String autoCommit) {
+        cp.setProperty(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, autoCommit);
+        // cp.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "10"); // 测试单线程和多线程效率是设置
         return new KafkaConsumer<>(cp);
     }
 
