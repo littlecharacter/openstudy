@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+  <!-- v=com.lc.dp.factory.factorymethod.ConcreteProduct -->
+  <bean id="v" class="com.lc.dp.factory.factorymethod.ConcreteProduct"/>
+</beans>
