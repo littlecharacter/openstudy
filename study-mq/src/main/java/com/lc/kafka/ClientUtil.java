@@ -70,6 +70,9 @@ public final class ClientUtil {
         // 序列化方式
         pp.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         pp.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        // acks：0, 1, -1，默认是 1
+        // 可以将 ack 设置成 -1，观察 ISR 中的一个副本故障时，生产者阻塞的现象（默认阻塞 10 秒，可配置）
+        pp.setProperty(ProducerConfig.ACKS_CONFIG, "1");
 
 
         // 消费端配置
