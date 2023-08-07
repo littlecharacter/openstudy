@@ -5,13 +5,13 @@ import com.lc.mybatis.domain.User;
 import java.util.List;
 
 public interface UserMapper {
-	void addUser(User user);
+    void addUser(User user);
 
-	void updateUser(User user);
+    void updateUser(User user);
 
-	void deleteUser(String id);
+    void deleteUser(String id);
 
-	User getUser(String id);
+    User getUser(String id);
 
-	List<User> getAllUser();
+    List<User> getAllUser();
 }
