@@ -21,5 +21,6 @@
 		<!-- xml映射文件，复杂情况好用 -->
 		<mapper resource="mybatis/mapper/UserMapper.xml" />
 		<mapper resource="mybatis/mapper/TestMapper.xml" />
+		<mapper resource="mybatis/mapper/LabUserMapper.xml" />
 	</mappers>
 </configuration>
