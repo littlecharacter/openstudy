@@ -140,6 +140,12 @@
                 <type>pom</type>
             </dependency>
 
+            <!-- mybatis -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>3.5.13</version>
+            </dependency>
             <!-- mysql-connector-java -->
             <dependency>
                 <groupId>mysql</groupId>
