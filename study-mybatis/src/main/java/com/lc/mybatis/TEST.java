@@ -26,7 +26,7 @@ public class TEST {
         SqlSession session = SqlSessionFactoryUtil.getSqlSessionFactory().openSession(true);
         LabUser user = new LabUser();
         try {
-            user.setId(idGenerator.getId(16));
+            user.setId(idGenerator.getId());
             user.setUsername(generateRandomName());
             user.setRealName(generateRandomName());
             user.setIdNumber(generateRandomID());
@@ -67,7 +67,7 @@ public class TEST {
             int digit = random.nextInt(10);
             idNumber.append(digit);
         }
-        idNumber.append(random.nextInt(2) == 0 ? random.nextInt(10) : "X");
+        idNumber.append(random.nextInt(100) == 0 ? "X" : random.nextInt(10));
         return idNumber.toString();
     }
 
