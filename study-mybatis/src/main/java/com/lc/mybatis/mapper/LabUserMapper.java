@@ -11,7 +11,12 @@ public interface LabUserMapper {
 
     LabUser selectByPrimaryKey(Long id);
 
+    LabUser selectByPhone(String phone);
+
+    LabUser selectByUsername(String username);
+
     int updateByPrimaryKeySelective(LabUser record);
 
     int updateByPrimaryKey(LabUser record);
+
 }
