@@ -55,7 +55,7 @@
         <!--       enableCountByExample="false"-->
         <!--       enableUpdateByExample="false"-->
         <!--       enableDeleteByExample="false"/>-->
-        <table tableName="lab_user" domainObjectName="LabUser"
+        <table tableName="lab_orders" domainObjectName="LabOrders"
                enableSelectByExample="false"
                enableCountByExample="false"
                enableUpdateByExample="false"
