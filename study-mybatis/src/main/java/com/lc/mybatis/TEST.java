@@ -1,10 +1,16 @@
 package com.lc.mybatis;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 
+import com.lc.mybatis.domain.DecimalTest;
 import com.lc.mybatis.domain.LabUser;
+import com.lc.mybatis.domain.LongTest;
 import com.lc.mybatis.domain.User;
+import com.lc.mybatis.mapper.DecimalTestMapper;
 import com.lc.mybatis.mapper.LabUserMapper;
+import com.lc.mybatis.mapper.LongTestMapper;
 import com.lc.mybatis.mapper.UserMapper;
 import com.lc.mybatis.utils.IDGenerator;
 import com.lc.mybatis.utils.SqlSessionFactoryUtil;
@@ -12,6 +18,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,6 +29,22 @@ public class TEST {
     private static Random random = new Random();
 
     public static void main(String[] args) throws Exception {
+        // intsetData();
+        SqlSession session = SqlSessionFactoryUtil.getSqlSessionFactory().openSession(true);
+        LongTestMapper longTestMapper = session.getMapper(LongTestMapper.class);
+        DecimalTestMapper decimalTestMapper = session.getMapper(DecimalTestMapper.class);
+        for (int i = 0; i < 100; i++) {
+            LongTest longTest = new LongTest();
+            longTest.setAmount(ThreadLocalRandom.current().nextLong(100, 100000000000L));
+            DecimalTest decimalTest = new DecimalTest();
+            decimalTest.setAmount(new BigDecimal(longTest.getAmount()).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP));
+            longTestMapper.insert(longTest);
+            decimalTestMapper.insert(decimalTest);
+        }
+        session.close();
+    }
+
+    private static void intsetData() {
         IDGenerator idGenerator = new IDGenerator();
         SqlSession session = SqlSessionFactoryUtil.getSqlSessionFactory().openSession(true);
         LabUser user = new LabUser();

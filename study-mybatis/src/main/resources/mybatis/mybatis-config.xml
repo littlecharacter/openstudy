@@ -22,5 +22,7 @@
 		<mapper resource="mybatis/mapper/UserMapper.xml" />
 		<mapper resource="mybatis/mapper/TestMapper.xml" />
 		<mapper resource="mybatis/mapper/LabUserMapper.xml" />
+		<mapper resource="mybatis/mapper/DecimalTestMapper.xml" />
+		<mapper resource="mybatis/mapper/LongTestMapper.xml" />
 	</mappers>
 </configuration>

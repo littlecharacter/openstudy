@@ -55,7 +55,12 @@
         <!--       enableCountByExample="false"-->
         <!--       enableUpdateByExample="false"-->
         <!--       enableDeleteByExample="false"/>-->
-        <table tableName="lab_orders" domainObjectName="LabOrders"
+        <table tableName="long_test" domainObjectName="LongTest"
+               enableSelectByExample="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"/>
+        <table tableName="decimal_test" domainObjectName="DecimalTest"
                enableSelectByExample="false"
                enableCountByExample="false"
                enableUpdateByExample="false"
