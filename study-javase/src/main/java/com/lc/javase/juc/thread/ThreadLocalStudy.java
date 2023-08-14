@@ -16,6 +16,8 @@ public class ThreadLocalStudy {
             System.out.println("do something...");
             TransactionManager.rollbackAndClose();
         }).start();
+
+        // InheritableThreadLocal threadLocal = new InheritableThreadLocal();
     }
 
     static class TransactionManager {
