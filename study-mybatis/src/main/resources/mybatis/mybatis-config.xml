@@ -3,10 +3,25 @@
 <!-- <configuration></configuration>中的标签是有顺序的，鼠标悬浮在<configuration>会看到 -->
 <configuration>
 	<properties resource="jdbc.properties" />
-	
+
+	<!--environments：是环境配置，是复数说明下面可以配置多个环境
+        所以 default 属性的值表示这个配置文件用下面的哪一套数据库配置信息
+        这里使用 development
+    -->
 	<environments default="development">
 		<environment id="development">
+			<!--transactionManager：表示 mybatis 提交事务和回滚事务的方式
+			   type：事务的处理类型：
+			   1、填 JDBC 表示 mybatis 底层是调用 JDBC 规范中的 Connection 对象进行事务提交与回滚的
+			   2、填 MANAGED 表示 mybatis 把事务委托给其他容器处理（一个服务器软件，或者是一个框架（spring））
+			-->
 			<transactionManager type="JDBC" />
+			<!--dataSource：表示使用的数据源类型，Java中，实现了 javax.sql.DataSource 接口的都可以当作数据源
+				type：指定数据源类型
+				1、POOLED：表示 mybatis 到连接池中获取 Connection 对象，即使用连接池，创建 PooledDataSource 类对象
+				2、UNPOOLED：不使用连接池，mybatis 每次执行 sql 语句，创建一个 Connection 对象，执行完后将 Connection 对象释放，mybatis 创建的是 UnPooledDataSource 类对象
+				3、JNDI：了解就好
+			-->
 			<dataSource type="POOLED">
 				<property name="driver" value="${driver}" />
 				<property name="url" value="${url}" />
@@ -14,6 +29,15 @@
 				<property name="password" value="${password}" />
 			</dataSource>
 		</environment>
+		<!-- <environment id="product"> -->
+		<!-- 	<transactionManager type="JDBC" /> -->
+		<!-- 	<dataSource type="POOLED"> -->
+		<!-- 		<property name="driver" value="${driver}" /> -->
+		<!-- 		<property name="url" value="${url}" /> -->
+		<!-- 		<property name="username" value="${username}" /> -->
+		<!-- 		<property name="password" value="${password}" /> -->
+		<!-- 	</dataSource> -->
+		<!-- </environment> -->
 	</environments>
 
 	<mappers>

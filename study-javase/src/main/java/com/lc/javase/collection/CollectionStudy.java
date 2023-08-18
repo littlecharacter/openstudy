@@ -69,6 +69,7 @@ public class CollectionStudy {
         ConcurrentHashMap<Integer, Integer> map = new ConcurrentHashMap<>(initCapacity);
         // 常用方法
         map.put(1, 1);
+        map.get(1);
         map.putIfAbsent(1, 1);
         map.getOrDefault(2, 0);
         map.remove(1);
