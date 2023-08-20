@@ -3,10 +3,20 @@ package com.lc.structure.graph.as;
 import java.util.*;
 
 /**
+ * 拓扑序：依赖顺序的逆序
+ * 前提：有向无环图
+ * 规则：依次把入度为 0 的节点取出，即为拓扑序
  * @author gujixian
  * @since 2023/7/12
  */
 public class TopologicalOrder {
+    /**
+     *  matrix = {
+     *      {to, from}, // to依赖from
+     *      {to, from}, // to依赖from
+     *      {to, from}  // to依赖from
+     *  }
+     */
     public List<Integer> topologicalSort(int[][] matrix) {
         List<Integer> result = new ArrayList<>();
         if (matrix == null) {
