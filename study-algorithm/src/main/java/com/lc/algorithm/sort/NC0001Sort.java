@@ -8,7 +8,7 @@ public class NC0001Sort {
     private static final Random RANDOM = new Random();
 
     public static void main(String[] args) {
-        System.out.println("排序结果：" + JSON.toJSONString(new NC0001Sort().sortArray(new int[]{14,20,11,52,62,104,215})));
+        System.out.println("排序结果：" + JSON.toJSONString(new NC0001Sort().sortArray(new int[]{14,-20,11,52,62,104,215})));
     }
 
     public int[] sortArray(int[] nums) {
@@ -288,35 +288,42 @@ public class NC0001Sort {
      * 2、掌握前缀和的技巧很重要 array[i] += array[i - 1]
      ******************************************************************************************************************/
     public void radixSort(int[] nums) {
-        // 获取最大数的位数
-        int digit = this.getDigit(nums);
-        // 辅助数组 - 队列
-        int[] help = new int[nums.length];
-        // 每个十进制位的数 ∈ [0,9]
-        int[] count = new int[10];
-        // 最大数有几位就要重复几遍
-        for (int i = 0; i < digit; i++) {
-            // 取出每个数的个、十、百、千...位计入计数数组 count
+        // 处理数组
+        int max = nums[0];
+        int min = nums[0];
+        for (int num : nums) {
+            max = Math.max(max, num);
+            min = Math.min(min, num);
+        }
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] -= min;
+        }
+        max -= min;
+        Queue<Integer>[] help = new Queue[10];
+        // 获取哪位数
+        int digit = 1;
+        while (max / digit > 0) {
             for (int num : nums) {
-                int x = this.getDigitNum(num, i);
-                count[x]++;
+                int index = num / digit % 10;
+                Queue<Integer> queue = Optional.ofNullable(help[index]).orElse(new LinkedList<>());
+                queue.offer(num);
+                help[index] = queue;
             }
-            // 计算 count 的前缀和，即，小于等于 当前数 的数 总共出现了多少次，以此来确认 nums 中的数出现在 help 中的位置
-            for (int j = 1; j < count.length; j++) {
-                count[j] += count[j - 1];
+            int index = 0;
+            for (Queue<Integer> queue : help) {
+                if (Objects.isNull(queue)) {
+                    continue;
+                }
+                for (Integer n : queue) {
+                    nums[index++] = n;
+                }
             }
-            // 将 nums 中的数放入 help 中按照当前十进制位排序
-            // 这里将 nums 从右开始放入 help，表示十进制位相同的数是先进先出的队列（保持稳定）
-            for (int k = nums.length - 1; k >= 0; k--) {
-                int x = this.getDigitNum(nums[k], i);
-                help[--count[x]] = nums[k];
-            }
-            // 将 help 中数的顺序拷贝到 nums
-            for (int h = 0; h < help.length; h++) {
-                nums[h] = help[h];
-            }
+            digit *= 10;
             // 重置计数数组
-            Arrays.fill(count, 0);
+            Arrays.fill(help, null);
+        }
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] += min;
         }
     }
 
