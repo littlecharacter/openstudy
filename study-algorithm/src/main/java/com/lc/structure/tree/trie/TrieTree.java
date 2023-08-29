@@ -3,6 +3,10 @@ package com.lc.structure.tree.trie;
 import java.util.HashMap;
 
 /**
+ * 前缀树，又叫字典树
+ * 1，字符在路径上，即 nextMap 的 key
+ * 2，字符出现的次数 和 字符作为字符串终点的次数在节点上，即 nextMap 的 value（Node）
+ *
  * @author gujixian
  * @since 2022/12/2
  */
@@ -17,72 +21,67 @@ public class TrieTree {
         if (word == null) {
             return;
         }
-        char[] chars = word.toCharArray();
+        char[] wc = word.toCharArray();
         Node node = root;
         node.pass++;
-        int index = 0;//路径
-        for (int i = 0; i < chars.length; i++) {
-            index = (int) chars[i];
-            if (!node.nexts.containsKey(index)) {//下一层的路径中不包括
-                node.nexts.put(index, new Node());
+        for (char c : wc) {
+            if (!node.nextMap.containsKey(c)) {
+                node.nextMap.put(c, new Node());
             }
-            node = node.nexts.get(index);//当前节点
-            node.pass++;//当前节点++
+            node = node.nextMap.get(c);
+            node.pass++;
         }
-        //循环结束后，说明单词已经遍历完
+        // 循环结束后，说明单词已经遍历完 + 字符在路径上，所以 node 就是字符的信息
         node.end++;
     }
 
     public void delete(String word) {
-        if (search(word) != 0) {
-            Node node = root;
-            int index = 0;
-            char[] chars = word.toCharArray();
-            for (int i = 0; i < chars.length; i++) {
-                index = (int) chars[i];
-                if (--node.nexts.get(index).pass == 0) {
-                    node.nexts.remove(index);//删除节点，防止内存泄露
-                    return;
-                }
-                node = node.nexts.get(index);
-            }
-            node.end--;
+        if (search(word) == 0) {
+            return;
         }
+        Node node = root;
+        char[] wc = word.toCharArray();
+        for (char c : wc) {
+            if (--node.nextMap.get(c).pass == 0) {
+                node.nextMap.remove(c); //删除节点，防止内存泄露
+                return;
+            }
+            node = node.nextMap.get(c);
+        }
+        node.end--;
     }
 
-    //word 这个单词之前加入了几次
+    // word 这个单词之前加入了几次
     public int search(String word) {
         if (word == null) {
             return 0;
         }
-        char[] chars = word.toCharArray();
+        char[] wc = word.toCharArray();
         Node node = root;
-        int index = 0;
-        for (int i = 0; i < chars.length; i++) {
-            index = (int) chars[i];
-            if (!node.nexts.containsKey(index)) {
+        for (char c : wc) {
+            if (!node.nextMap.containsKey(c)) {
                 return 0;
             }
-            node = node.nexts.get(index);
+            node = node.nextMap.get(c);
         }
-        return node.end;//有几个结尾，就加入了几次
+        return node.end; // 有几个结尾，就加入了几次
     }
 
     //所有加入的字符串中，有几个是以pre 这个字符串作为前缀的
-    public int prefixNumber(String pre) {
-        if (pre == null) {
+    public int startsWith(String prefix) {
+        if (prefix == null) {
             return 0;
         }
-        char[] chars = pre.toCharArray();
+        char[] pc = prefix.toCharArray();
         Node node = root;
-        int index = 0;
-        for (int i = 0; i < chars.length; i++) {
-            if (!node.nexts.containsKey(index)) {
+        for (char c : pc) {
+            Node next = node.nextMap.get(c);
+            if (next == null) {
                 return 0;
             }
-            node = node.nexts.get(index);
+            node = next;
         }
-        return node.pass;//有几个单词经过 就有几个
+        return node.pass; // 有几个单词经过 就有几个
     }
 
     public void traversal(Node node) {
@@ -91,13 +90,13 @@ public class TrieTree {
     public static class Node {
         public int pass;
         public int end;
-        // 如果想有序，可以使用TreeMap：字符的 ASCII 码 -> nextNode
-        public HashMap<Integer, Node> nexts;
+        // 如果想有序，可以使用TreeMap：字符 -> nextNode
+        public HashMap<Character, Node> nextMap;
 
         public Node() {
             pass = 0;
             end = 0;
-            nexts = new HashMap<>();
+            nextMap = new HashMap<>();
         }
     }
 
@@ -108,6 +107,7 @@ public class TrieTree {
         tree.insert("澳大利亚");
         tree.insert("澳洲");
         tree.insert("澳门");
+        tree.insert("澳大利亚");
         tree.delete("澳大利亚");
         System.out.println(tree.search("澳大利亚"));
     }
