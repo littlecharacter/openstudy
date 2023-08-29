@@ -1,6 +1,7 @@
 package com.lc.structure.linear.stack;
 
 import com.lc.structure.linear.stack.ss.MonotonicStack;
+import com.lc.structure.linear.stack.ss.MonotonicStackEasy;
 import com.lc.structure.linear.stack.ss.MonotonicStackForInterview;
 import javafx.util.Pair;
 import org.apache.commons.collections4.CollectionUtils;
@@ -64,7 +65,7 @@ public class LC0084LargestRectangleInHistogram {
 
     public int largestRectangleAreaV2(int[] heights) {
         int len = heights.length;
-        MonotonicStackForInterview<Integer> stack = new MonotonicStackForInterview<>((o1, o2) -> o1 - o2, len);
+        MonotonicStackEasy<Integer> stack = new MonotonicStackEasy<>((o1, o2) -> o1 - o2, len);
         Map<Integer, Pair<Integer, Integer>> featureMap = new HashMap<>();
         for (int i = 0; i < len; i++) {
             Map<Integer, Pair<Integer, Integer>> subFeatureMap = stack.push(i, heights[i]);
