@@ -1,10 +1,5 @@
 package com.lc.structure.zother.slidingwindow.ss;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.Comparator;
 import java.util.Deque;
 import java.util.LinkedList;
 
