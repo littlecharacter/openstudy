@@ -33,21 +33,14 @@ public class SlidingWindow<E> {
      * @return
      */
     public Node<E> slide(Node<E> node) {
-        Node<E> feature = null;
-        while (!window.isEmpty()) {
-            Node<E> x = window.peekLast();
-            if (comparator.compare(x.getElement(), node.getElement()) > 0) {
-                window.offerLast(node);
-                break;
-            } else {
-                window.pollLast();
-            }
+        while (!window.isEmpty() && comparator.compare(window.peekLast().getElement(), node.getElement()) < 0) {
+            window.pollLast();
         }
-        if (window.isEmpty()) {
-            window.offerLast(node);
-        }
+        window.offerLast(node);
+        tail++; // tail 先+1，代表 [head,tail)，所以窗口大小就是 tail - head
         // 窗口形成，之后总是满足
-        if (tail - head + 1 == capacity) {
+        Node<E> feature = null;
+        if (tail - head == capacity) {
             feature = window.peekFirst();
             assert feature != null;
             if (feature.index == head) {
@@ -55,7 +48,6 @@ public class SlidingWindow<E> {
             }
             head++;
         }
-        tail++;
         return feature;
     }
 
@@ -65,5 +57,22 @@ public class SlidingWindow<E> {
     public static class Node<E> {
         private int index;
         private E element;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = new int[]{1,3,-1,-3,5,3,6,7};
+        int k = 3;
+        SlidingWindow<Integer> win = new SlidingWindow<>((o1, o2) -> o1 - o2, k);
+        int[] result = new int[nums.length - k + 1];
+        int index = 0;
+        for (int i = 0; i < nums.length; i++) {
+            Node<Integer> max = win.slide(new Node<>(i, nums[i]));
+            if (max != null) {
+                result[index++] = max.getElement();
+            }
+        }
+        for (int i : result) {
+            System.out.print(i + " ");
+        }
     }
 }
