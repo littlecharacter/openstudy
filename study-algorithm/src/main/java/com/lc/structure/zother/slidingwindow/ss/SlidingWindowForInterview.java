@@ -14,37 +14,37 @@ import java.util.LinkedList;
  * @author gujixian
  * @since 2022/12/22
  */
-public class SlidingWindow<E> {
-    private final Deque<Node<E>> window = new LinkedList<>();
-    private final Comparator<E> comparator;
+public class SlidingWindowForInterview {
+    private final Deque<Integer> window = new LinkedList<>();
     private final int capacity;
-    private int head;
-    private int tail;
+    private int head = 0;
+    private int tail = 0;
 
-    public SlidingWindow(Comparator<E> comparator, int capacity) {
-        this.comparator = comparator;
+    private final int[] nums;
+
+    public SlidingWindowForInterview(int[] nums, int capacity) {
+        this.nums = nums;
         this.capacity = capacity;
     }
 
     /**
      * slide 模拟窗口滑动，当窗口形成后，每次滑动都会产生特征值
      *
-     * @param node
-     * @return
+     * @param index, 滑入窗口的索引
+     * @return 窗口内最大值的索引
      */
-    public Node<E> slide(Node<E> node) {
+    public int slide(int index) {
         // 这里使用 "<0" 和 "<=0" 效果是一样的
-        while (!window.isEmpty() && comparator.compare(window.peekLast().getElement(), node.getElement()) <= 0) {
+        while (!window.isEmpty() && nums[window.peekLast()] < nums[index]) {
             window.pollLast();
         }
-        window.offerLast(node);
+        window.offerLast(index);
         tail++; // tail 先+1，代表 [head,tail)，所以窗口大小就是 tail - head
         // 窗口形成，之后总是满足
-        Node<E> feature = null;
+        int feature = -1;
         if (tail - head == capacity) {
             feature = window.peekFirst();
-            assert feature != null;
-            if (feature.index == head) {
+            if (feature == head) {
                 window.pollFirst();
             }
             head++;
@@ -52,24 +52,17 @@ public class SlidingWindow<E> {
         return feature;
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Node<E> {
-        private int index;
-        private E element;
-    }
 
     public static void main(String[] args) {
         int[] nums = new int[]{1,3,-1,-3,5,3,6,7};
         int k = 3;
-        SlidingWindow<Integer> win = new SlidingWindow<>((o1, o2) -> o1 - o2, k);
+        SlidingWindowForInterview win = new SlidingWindowForInterview(nums, k);
         int[] result = new int[nums.length - k + 1];
         int index = 0;
         for (int i = 0; i < nums.length; i++) {
-            Node<Integer> max = win.slide(new Node<>(i, nums[i]));
-            if (max != null) {
-                result[index++] = max.getElement();
+            int feature = win.slide(i);
+            if (feature > -1) {
+                result[index++] = nums[feature];
             }
         }
         for (int i : result) {
