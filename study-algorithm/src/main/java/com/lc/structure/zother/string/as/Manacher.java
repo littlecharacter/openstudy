@@ -44,7 +44,7 @@ public class Manacher {
             } else { // 整体最右回文边界罩得住 i 位置
                 /*
                  * x x   a   b   c        d         e    d c b    a   t    s   t a b c d e d   c   x x
-                 *     iLeft   cLeft--iDistance--iCenter       iRight   center           i   right
+                 *     iLeft   cLeft--iDistance--iCenter        iRight   center          i   right
                  */
                 int cLeft = 2 * center - right;
                 int iCenter = 2 * center - i;
