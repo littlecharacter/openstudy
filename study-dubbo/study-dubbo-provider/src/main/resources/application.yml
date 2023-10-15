@@ -1,6 +1,6 @@
 dubbo:
   application:
-    name: study-dubbo-provider
+    name: learn-dubbo-provider
   protocol:
     name: dubbo
     port: -1
