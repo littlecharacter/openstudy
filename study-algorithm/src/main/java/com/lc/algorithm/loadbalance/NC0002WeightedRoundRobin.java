@@ -1,21 +1,23 @@
-package com.lc.algorithm;
+package com.lc.algorithm.loadbalance;
+
+import com.alibaba.fastjson.JSON;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Nginx加权轮询算法的Java实现
+ * Nginx加权轮询算法的Java实现 - 基于 List
  * 两点：
  * 1、每轮取当前权重最大的节点；
  * 2、每轮每个节点的当前节点权重都要加上初始权重，就是为了每轮下来，所有节点的当前节点之和等于所有节点的初始权重之和
  */
-public class NC0007WeightedRoundRobin {
+public class NC0002WeightedRoundRobin {
     private volatile List<Server> serverList = new ArrayList<>();
     private volatile Server selectServer = null;
     private volatile int sumWeight;
 
-    public NC0007WeightedRoundRobin(List<Server> serverList) {
+    public NC0002WeightedRoundRobin(List<Server> serverList) {
         this.serverList = serverList;
         sumWeight = 0;
         for (Server server : serverList) {
@@ -74,7 +76,36 @@ public class NC0007WeightedRoundRobin {
         return selectServer;
     }
 
-    static class Server {
+    public static void main(String[] args) {
+        List<Server> serverList = new ArrayList<>();
+        serverList.add(new Server(1, "server-1"));
+        serverList.add(new Server(3, "server-2"));
+        serverList.add(new Server(5, "server-3"));
+        NC0002WeightedRoundRobin weightedRoundRobin = new NC0002WeightedRoundRobin(serverList);
+        for (int i = 0; i < 9; i++) {
+            System.out.println(JSON.toJSONString(weightedRoundRobin.getServer2()));
+        }
+        System.out.println("--------------------------------------------------------");
+        serverList.clear();
+        serverList.add(new Server(1, "server-1"));
+        serverList.add(new Server(2, "server-2"));
+        serverList.add(new Server(2, "server-3"));
+        weightedRoundRobin.reinitialization(serverList);
+        for (int i = 0; i < 15; i++) {
+            System.out.println(JSON.toJSONString(weightedRoundRobin.getServer2()));
+        }
+        System.out.println("--------------------------------------------------------");
+        serverList.clear();
+        serverList.add(new Server(1, "server-1"));
+        serverList.add(new Server(1, "server-2"));
+        serverList.add(new Server(7, "server-3"));
+        weightedRoundRobin.reinitialization(serverList);
+        for (int i = 0; i < 9; i++) {
+            System.out.println(JSON.toJSONString(weightedRoundRobin.getServer2()));
+        }
+    }
+    
+    private static class Server {
         /**
          * 初始权重（保持不变）
          */
