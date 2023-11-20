@@ -6,4 +6,6 @@ package com.lc.pattern.structure.proxy.javasistproxy;
  */
 public interface UserService {
     void addUser(String username, String password);
+
+    String getUser(String username);
 }

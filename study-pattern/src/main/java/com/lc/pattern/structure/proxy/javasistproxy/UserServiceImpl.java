@@ -8,4 +8,9 @@ public class UserServiceImpl implements UserService {
     public void addUser(String username, String password) {
         System.out.println("添加用户成功，用户名：" + username + "，密码：" + password);
     }
+
+    @Override
+    public String getUser(String username) {
+        return "用户名：" + username + "，密码：123456";
+    }
 }
