@@ -61,5 +61,12 @@ public class StringStudy {
 
         String str3 = new String("计算机");
         System.out.println(str3.intern() == str3);
+
+        String str4 = new String("XXOO");
+        String str5 = "XXOO";
+        System.out.println("str4:" + System.identityHashCode(str4));
+        System.out.println("str4.intern:" + System.identityHashCode(str4.intern()));
+        System.out.println("str5:" + System.identityHashCode(str5));
+        System.out.println(str4.intern() == str5);
     }
 }
