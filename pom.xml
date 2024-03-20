@@ -40,6 +40,9 @@
         <module>study-guava</module>
 
         <module>study-test</module>
+        <module>study-mvc2ddd</module>
+        <module>study-mvc2ddd/study-mvc</module>
+        <module>study-mvc2ddd/study-ddd</module>
     </modules>
 
     <dependencyManagement>
